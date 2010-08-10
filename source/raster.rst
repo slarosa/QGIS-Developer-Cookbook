@@ -42,7 +42,7 @@ Index   Constant: QgsRasterLater.X     Comment
   3     PalettedColor                  "Palette" image drawn using color table
   4     PalettedSingleBandGray         "Palette" layer drawn in gray scale
   5     PalettedSingleBandPseudoColor  "Palette" layerdrawn using a pseudocolor algorithm
-  7     MultiBandSingleGandGray        Layer containing 2 or more bands, but a single band drawn as a range of gray colors
+  7     MultiBandSingleBandGray        Layer containing 2 or more bands, but a single band drawn as a range of gray colors
   8     MultiBandSingleBandPseudoColor Layer containing 2 or more bands, but a single band drawn using a pseudocolor algorithm
   9     MultiBandColor                 Layer containing 2 or more bands, mapped to RGB color space.
 ====== =============================== ===============================================================================================
@@ -56,6 +56,9 @@ Single band raster layers can be drawn either in gray colors (low values = black
 that assigns colors for values from the single band. Single band rasters with a palette can be additionally drawn using their palette.
 Multiband layers are typically drawn by mapping the bands to RGB colors. Other possibility is to use just one band for gray or pseudocolor
 drawing.
+
+The following sections explain how to query and modify the layer drawing style. After doing the changes, you might want to force update
+of map canvas, see :ref:`refresh-layer`.
 
 .. todo:: contrast enhancements, transparency (no data), user defined min/max, band statistics
 
@@ -104,6 +107,26 @@ see previous section::
   >>> rlayer.setGrayBandName(rlayer.bandName(1))
   >>> rlayer.setColorShadingAlgorithm(QgsRasterLayer.PseudoColorShader)
   >>> # now set the shader
+
+.. _refresh-layer:
+
+Refresing Layers
+----------------
+
+If you do change layer symbology and would like ensure that the changes are immediately visible to the user, call these methods::
+
+   if hasattr(layer, "setCacheImage"): layer.setCacheImage(None)
+   layer.triggerRepaint()
+
+The first call will ensure that the cached image of rendered layer is erased in case render caching is turned on. This functionality is available from QGIS 1.4,
+in previous versions this function does not exist - to make sure that the code works with all versions of QGIS, we first check whether the method exists.
+
+The second call emits signal that will force any map canvas containing the layer to issue a refresh.
+
+In case you have changed layer symbology (see sections about raster and vector layers on how to do that), you might want to force QGIS to update the layer
+symbology in the layer list (legend) widget. This can be done as follows (``iface`` is an instance of QgisInterface)::
+
+   iface.legendInterface().refreshLayerSymbology(layer)
 
 Query Values
 ------------
