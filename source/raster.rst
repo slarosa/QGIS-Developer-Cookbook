@@ -60,7 +60,7 @@ drawing.
 The following sections explain how to query and modify the layer drawing style. After doing the changes, you might want to force update
 of map canvas, see :ref:`refresh-layer`.
 
-.. todo:: contrast enhancements, transparency (no data), user defined min/max, band statistics
+**TODO:** contrast enhancements, transparency (no data), user defined min/max, band statistics
 
 Single Band Rasters
 -------------------

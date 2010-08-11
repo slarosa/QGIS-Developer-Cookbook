@@ -202,12 +202,12 @@ For temprary hiding of vertex markers and removing them from canvas, the same ap
 Writing Custom Map Tools
 ------------------------
 
-.. todo:: how to create a map tool
+**TODO:** how to create a map tool
 
 Writing Custom Map Canvas Items
 -------------------------------
 
-.. todo:: how to create a map canvas item
+**TODO:** how to create a map canvas item
 
 
 

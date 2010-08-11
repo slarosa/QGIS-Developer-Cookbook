@@ -97,5 +97,5 @@ Layers are destroyed automatically on exit, however if you want to delete the la
   QgsMapLayerRegistry.instance().removeMapLayer(layer_id)
 
 
-.. todo::
+**TODO:**
    More about map layer registry?

@@ -13,7 +13,7 @@ languages for scripting. PyQGIS bindings depend on SIP and PyQt4. The reason for
 QGIS code depends on Qt libraries. Python bindings for Qt (PyQt) are done also using SIP and this allows seamless integration of PyQGIS with PyQt. 
 
 
-.. todo::
+**TODO:**
    Getting PyQGIS to work (Manual compilation, Troubleshooting)
 
 

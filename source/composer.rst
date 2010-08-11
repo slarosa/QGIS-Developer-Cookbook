@@ -93,7 +93,7 @@ for composition are page size A4 and resolution 300 DPI (it's possible to change
   image.save("out.png", "png")
 
 
-.. todo::
+**TODO:**
    Output to PDF,
    Loading/saving compositions,
    More composer items (north arrow, scale, ...)

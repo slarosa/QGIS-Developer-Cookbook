@@ -6,7 +6,7 @@ Using Vector Layers
 
 This section summarizes various actions that can be done with vector layers.
 
-.. todo::
+**TODO:**
    Editing, Layer vs. Data provider, ...
 
 Iterating over Vector Layer
@@ -89,7 +89,7 @@ To obtain field index from its name, use provider's :func:`fieldNameIndex` funct
 Using Spatial Index
 -------------------
 
-.. todo::
+**TODO:**
    Intro to spatial indexing
 
 1. create spatial index - the following code creates an empty index::

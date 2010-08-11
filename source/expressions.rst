@@ -49,7 +49,7 @@ Parsing Expressions
 -------------------
 
 
-.. todo:: parsing, error handling
+**TODO:** parsing, error handling
 
 ::
 
@@ -61,7 +61,7 @@ Parsing Expressions
   >>> s.parserErrorMsg()
   PyQt4.QtCore.QString(u'syntax error, unexpected $end')
 
-.. todo:: working with the tree, evaluation as a predicate, as a function, error handling
+**TODO:** working with the tree, evaluation as a predicate, as a function, error handling
 
 Evaluating Expressions
 ----------------------

@@ -13,4 +13,4 @@ otherwise they'll be done on ellipsoid. When ellipsoid is not set explicitly it 
   print "distance in meters: ", d.measureLine(QgsPoint(10,10),QgsPoint(11,11))
 
 
-.. todo:: area, planar vs. ellipsoid
+**TODO:** area, planar vs. ellipsoid

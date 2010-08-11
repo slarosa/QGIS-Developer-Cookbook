@@ -22,7 +22,6 @@ Contents:
    expressions
    measure
    plugins
-   todolist
 
 Indices and tables
 ==================
