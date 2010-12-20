@@ -51,31 +51,88 @@ Render some layers using :class:`QgsMapRenderer` - create destination paint devi
 Output using Map Composer
 -------------------------
 
+Map composer is a very handy tool if you would like to do a more sophisticated output than the simple rendering shown above.
+Using the composer it is possible to create complex map layouts consisting of map views, labels, legend, tables and other
+elements that are usually present on paper maps. The layouts can be then exported to PDF, raster images or directly printed
+on a printer.
 
-The following piece of code renders layers from map canvas with the current extent into a PNG file. The default settings
-for composition are page size A4 and resolution 300 DPI (it's possible to change them).
-::
+The composer consists of a bunch of classes. They all belong to the core library. QGIS application has a convenient GUI
+for placement of the elements, though it is not available in the gui library.
+If you are not familiar with `Qt Graphics View framework <http://doc.qt.nokia.com/stable/graphicsview.html>`_, then you are
+encouraged to check the documentation now, because the composer is based on it.
 
-  from qgis.core import *
-  from qgis.utils import iface
-  from PyQt4.QtCore import *
-  from PyQt4.QtGui import *
+The central class of the composer is :class:`QgsComposition` which is derived from :class:`QGraphicsScene`. Let us create
+one::
 
-  # set up composition
   mapRenderer = iface.mapCanvas().mapRenderer()
   c = QgsComposition(mapRenderer)
   c.setPlotStyle(QgsComposition.Print)
+
+Note that the composition takes an instance of :class:`QgsMapRenderer`. In the code we expect we are running within QGIS
+application and thus use the map renderer from map canvas. The composition uses various parameters from the map renderer,
+most importantly the default set of map layers and the current extent. When using composer in a standalone application,
+you can create your own map renderer instance the same way as shown in the section above and pass it to the composition.
+
+It is possible to add various elements (map, label, ...) to the composition - these elements have to be descendants
+of :class:`QgsComposerItem` class. Currently supported items are:
+
+* map - this item tells the libraries where to put the map itself. Here we create a map and stretch it over the whole paper size::
+  
+    x, y = 0, 0
+    w, h = c.paperWidth(), c.paperHeight()
+    composerMap = QgsComposerMap(c, x,y,w,h)
+    c.addItem(composerMap)
+
+* label - allows displaying labels. It is possible to modify its font, color, alignment and margin.
+  ::
+
+    composerLabel = QgsComposerLabel(c)
+    composerLabel.setText("Hello world")
+    composerLabel.adjustSizeToText()
+    c.addItem(composerLabel)
+
+* legend
+* scale bar
+* arrow
+* picture
+* shape
+* table
+
+By default the newly created composer items have zero position (top left corner of the page) and zero size.
+The position and size are always measured in millimeters::
+
+  # set label 1cm from the top and 2cm from the left of the page
+  composerLabel.setItemPosition(20,10)
+  # set both label's position and size (width 10cm, height 3cm)
+  composerLabel.setItemPosition(20,10, 100, 30)
+
+A frame is drawn around each item by default. How to remove the frame::
+
+  composerLabel.setFrame(False)
+
+
+Besides creating the composer items by hand, QGIS has support for composer templates which are essentially compositions
+with all their items saved to a .qpt file (with XML syntax). Unfortunately this functionality is not yet available in the API.
+
+Once the composition is ready (the composer items have been created and added to the composition), we can
+proceed to produce a raster and/or vector output.
+
+The default output settings for composition are page size A4 and resolution 300 DPI. You can change them if necessary. The paper
+size is specified in millimeters::
+
+  c.setPaperSize(width, height)
+  c.setPrintResolution(dpi)
+
+
+Output to a raster image
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following code fragment shows how to render a composition to a raster image::
 
   dpi = c.printResolution()
   dpmm = dpi / 25.4
   width = int(dpmm * c.paperWidth())
   height = int(dpmm * c.paperHeight())
-
-  # add a map to the composition
-  x, y = 0, 0
-  w, h = c.paperWidth(), c.paperHeight()
-  composerMap = QgsComposerMap(c, x,y,w,h)
-  c.addItem(composerMap)
 
   # create output image and initialize it
   image = QImage(QSize(width, height), QImage.Format_ARGB32)
@@ -93,8 +150,23 @@ for composition are page size A4 and resolution 300 DPI (it's possible to change
   image.save("out.png", "png")
 
 
-**TODO:**
-   Output to PDF,
-   Loading/saving compositions,
-   More composer items (north arrow, scale, ...)
-   
+Output to PDF
+~~~~~~~~~~~~~
+
+The following code fragment renders a composition to a PDF file::
+
+  printer = QPrinter()
+  printer.setOutputFormat(QPrinter.PdfFormat)
+  printer.setOutputFileName("out.pdf")
+  printer.setPaperSize(QSizeF(c.paperWidth(), c.paperHeight()), QPrinter.Millimeter)
+  printer.setFullPage(True)
+  printer.setColorMode(QPrinter.Color)
+  printer.setResolution(c.printResolution())
+  
+  pdfPainter = QPainter(printer)
+  paperRectMM = printer.pageRect(QPrinter.Millimeter)
+  paperRectPixel = printer.pageRect(QPrinter.DevicePixel)
+  c.render(pdfPainter, paperRectPixel, paperRectMM)
+  pdfPainter.end()
+
+
