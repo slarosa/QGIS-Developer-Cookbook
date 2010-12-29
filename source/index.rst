@@ -21,6 +21,7 @@ Contents:
    composer
    expressions
    measure
+   settings
    pluginlayer
    plugins
 
