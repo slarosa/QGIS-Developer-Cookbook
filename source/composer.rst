@@ -92,7 +92,21 @@ of :class:`QgsComposerItem` class. Currently supported items are:
     c.addItem(composerLabel)
 
 * legend
+  ::
+
+    legend = QgsComposerLegend(c)
+    legend.model().setLayerSet(mapRenderer.layerSet())
+    c.addItem(legend)
+
 * scale bar
+  ::
+
+    item = QgsComposerScaleBar(c)
+    item.setStyle('Numeric') # optionally modify the style
+    item.setComposerMap(composerMap)
+    item.applyDefaultSize()
+    c.addItem(item)
+
 * arrow
 * picture
 * shape
