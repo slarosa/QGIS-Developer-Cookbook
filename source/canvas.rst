@@ -5,7 +5,7 @@ Using Map Canvas
 ================
 
 The Map canvas widget is probably the most important widget within QGIS because it
-shows the map composed from overlaid map layers and allows interaction the map and layers.
+shows the map composed from overlaid map layers and allows interaction with the map and layers.
 The canvas shows always a part of the map defined by the current canvas extent.
 The interaction is done through the use of **map tools**: there are tools for
 panning, zooming, identifying layers, measuring, vector editing and others.
@@ -14,12 +14,12 @@ user can switch between the available tools.
 
 
 Map canvas is implemented as :class:`QgsMapCanvas` class in :mod:`qgis.gui`
-module.  The implementation is based on the `Qt Graphics View framework
-<http://doc.qt.nokia.com/graphicsview.html>`_ This framework generally provides
+module.  The implementation is based on the Qt Graphics View framework.
+This framework generally provides
 a surface and a view where custom graphics items are placed and user can
 interact with them.  We will assume that you are familiar enough with Qt to 
 understand the concepts of the graphics scene, view and items.  If not,
-please read the overview of the framework.
+please make sure to read the `overview of the framework <http://doc.qt.nokia.com/graphicsview.html>`_.
 
 Whenever the map has been panned, zoomed in/out (or some other action
 triggers a refresh), the map is rendered again within the current extent.
@@ -95,7 +95,7 @@ The following example constructs a window that contains a map canvas and basic
 map tools for map panning and zooming.  Actions are created for activation of
 each tool: panning is done with :class:`QgsMapToolPan`, zooming in/out with a
 pair of :class:`QgsMapToolZoom` instances. The actions are set as checkable and
-later assigned to the tools to allows automatic handling of checked/unchecked
+later assigned to the tools to allow automatic handling of checked/unchecked
 state of the actions -- when a map tool gets activated, its action is marked as
 selected and the action of the previous map tool is deselected. The map tools
 are activated using :func:`setMapTool` method.
