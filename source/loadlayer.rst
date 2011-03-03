@@ -55,6 +55,11 @@ The following list shows how to access various data sources using vector data pr
 
     vlayer = QgsVectorLayer(uri.uri(), 'Towns', 'spatialite')
 
+* MySQL WKB-based geometries, through OGR - data source is the connection string to the table::
+    
+    uri = "MySQL:dbname,host=localhost,port=3306,user=root,password=xxx|layername=my_table"
+    vlayer = QgsVectorLayer( uri, "my_table", "ogr" )
+
 
 Raster Layers
 -------------

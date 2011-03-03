@@ -575,7 +575,7 @@ four available renderers:
 
 * single symbol renderer (:class:`QgsSingleSymbolRenderer`) --- all features are rendererd with the same symbol.
 * unique value renderer (:class:`QgsUniqueValueRenderer`) --- symbol for each feature is choosen from attribute value.
-* graduated symbol renderer (:class:`QgsGraduatedSymbolRenderer`)
+* graduated symbol renderer (:class:`QgsGraduatedSymbolRenderer`) --- a symbol is applied to a subgroup (class) of features, which is calculated on a numeric field
 * continuous color renderer (:class:`QgsContinuousSymbolRenderer`)
 
 How to create a point symbol::
@@ -624,5 +624,35 @@ Create unique value renderer::
 
 Create graduated symbol renderer::
 
-  TODO
+    # Set the numeric field and the number of classes to be generated
+    fieldName = "My_Field"
+    numberOfClasses = 5
+    
+    # Get the field index based on the field name
+    fieldIndex = layer.fieldNameIndex(fieldName)
+
+    # Create the renderer object to be associated to the layer later
+    renderer = QgsGraduatedSymbolRenderer( layer.geometryType() )
+
+    # Here you may choose the renderer mode from EqualInterval/Quantile/Empty
+    renderer.setMode( QgsGraduatedSymbolRenderer.EqualInterval ) 
+
+    # Define classes (lower and upper value as well as a label for each class)
+    provider = layer.dataProvider()
+    minimum = provider.minimumValue( fieldIndex ).toDouble()[ 0 ]
+    maximum = provider.maximumValue( fieldIndex ).toDouble()[ 0 ]
+
+    for i in range( numberOfClasses ):
+        # Switch if attribute is int or double
+        lower = ('%.*f' % (2, minimum + ( maximum - minimum ) / numberOfClasses * i ) )
+        upper = ('%.*f' % (2, minimum + ( maximum - minimum ) / numberOfClasses * ( i + 1 ) ) )
+        label = "%s - %s" % (lower, upper)
+        color = QColor(255*i/numberOfClasses, 0, 255-255*i/numberOfClasses)
+        sym = QgsSymbol( layer.geometryType(), lower, upper, label, color )
+        renderer.addSymbol( sym )
+
+    # Set the field index to classify and set the created renderer object to the layer
+    renderer.setClassificationField( fieldIndex )
+
+    layer.setRenderer( renderer )
 
