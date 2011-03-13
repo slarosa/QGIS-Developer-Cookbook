@@ -42,6 +42,14 @@ The following list shows how to access various data sources using vector data pr
     uri = "/some/path/file.csv?delimiter=%s&xField=%s&yField=%s" % (";", "x", "y")
     vlayer = QgsVectorLayer(uri, "layer_name_you_like", "delimitedtext")
 
+  Note: from QGIS version 1.7 the provider string is structured as a URL, so 
+  the path must be prefixed with *file://*. Also
+  it allows WKT (well known text) formatted geomtries as an alternative to 
+  x and y fields, and allows the coordinate reference system to be specified.
+  For example::
+
+    uri = "file:///some/path/file.csv?delimiter=%s&crs=epsg:4723&wktField=%s" % (";", "shape")
+
 * GPX files - the "gpx" data provider reads tracks, routes and waypoints from gpx files. To open a file, the type (track/route/waypoint) needs to be specified as part of the url::
 
     uri = "path/to/gpx/file.gpx?type=track"

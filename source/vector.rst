@@ -161,14 +161,40 @@ Memory Provider
 ---------------
 
 Memory provider is intended to be used mainly by plugin or 3rd party app developers.
-It does not store data on disk, allowing developers to use it as a fast backend for some temporary layers (until now one had to use e.g. OGR provider).
-You can use it by passing ``"memory"`` provider string to vector layer constructor.
-
-Following URIs are allowed: "Point" / "LineString" / "Polygon" / "MultiPoint" / "MultiLineString" / "MultiPolygon" - for different types of data stored in the layer.
+It does not store data on disk, allowing developers to use it as a fast backend for some temporary layers.
 
 The provider supports string, int and double fields.
 
-Following example should be self-explaining::
+The memory provider also supports spatial indexing, which is enabled by calling the provider's :func:`createSpatialIndex` function.
+Once the spatial index is created you will be able to iterate over features within smaller regions faster
+(since it's not necessary to traverse all the features, only those in specified rectangle). 
+
+A memory provider is created by passing ``"memory"`` as the provider string to the :class:`QgsVectorLayer` constructor.
+
+The constructor also takes a URI defining the geometry type of the layer, 
+one of: ``"Point"``, ``"LineString"``, ``"Polygon"``, ``"MultiPoint"``, ``"MultiLineString"``, or ``"MultiPolygon"``.
+
+From QGIS version 1.7 the URI can also specify the coordinate reference system,
+fields, and indexing of the memory provider in the URI.
+The syntax is:
+
+crs=definition
+    Specifies the coordinate reference system, where definition may be any
+    of the forms accepted by :func:`QgsCoordinateReferenceSystem.createFromString`
+
+index=yes
+    Specifies that the provider will use a spatial index
+
+field=name:type(length,precision)
+    Specifies an attribute of the layer.  The attribute has a name, and 
+    optionally a type (integer, double, or string), length, and precision.
+    There may be multiple field definitions.
+
+The following example of a URI incorporates all these options::
+
+  "Point?crs=epsg:4326&field=id:integer&field=name:string(20)&index=yes"
+
+The following example code illustrates creating and populating a memory provider::
 
   # create layer
   vl = QgsVectorLayer("Point", "temporary_points", "memory")
@@ -205,11 +231,6 @@ Finally, let's check whether everything went well::
   while pr.nextFeature(f):
     print "F:",f.id(), f.attributeMap(), f.geometry().asPoint()
 
-Memory provider also supports spatial indexing. This means you can call provider's :func:`createSpatialIndex` function.
-Once the spatial index is created (using :class:`QgsSpatialIndex` class), you will be able to iterate over features within smaller regions faster
-(since it's not necessary to traverse all the features, only those in specified rectangle). 
-
-
 
 Appearance (Symbology) of Vector Layers
 ---------------------------------------
@@ -219,7 +240,7 @@ Symbols are classes which take care of drawing of visual representation of featu
 
 In QGIS v1,4 a new vector rendering stack has been introduced in order to overcome the limitations of the original implementation. We refer to it as
 new symbology or symbology-ng (new generation), the original rendering stack is also called old symbology. Each vector layer uses either new symbology
-or old symbology, but never both at once or niether of them. It's not a global setting for all layers, so some layers might use new symbology while
+or old symbology, but never both at once or neither of them. It's not a global setting for all layers, so some layers might use new symbology while
 others still use old symbology. In QGIS options the user can specify what symbology should be used by default when layers are loaded.
 The old symbology will be kept in further QGIS v1.x releases for compatibility and we plan
 to remove it in QGIS v2.0.
