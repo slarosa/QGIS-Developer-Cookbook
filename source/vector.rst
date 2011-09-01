@@ -113,19 +113,34 @@ Using Spatial Index
 
 
 
-Writing Shapefiles
-------------------
+Writing Vector Layers
+---------------------
 
-You can write shapefiles using :class:`QgsVectorFileWriter` class. Besides shapefiles, it supports any kind of vector file that OGR supports.
+You can write vector layer files using :class:`QgsVectorFileWriter` class. It supports any other kind of vector file that OGR supports (shapefiles, GeoJSON, KML and others).
 
-There are two possibilities how to export a shapefile:
+There are two possibilities how to export a vector layer:
 
 * from an instance of :class:`QgsVectorLayer`::
 
-    error = QgsVectorFileWriter.writeAsShapefile(layer, "my_shapes.shp", "CP1250")
+    error = QgsVectorFileWriter.writeAsVectorFormat(layer, "my_shapes.shp", "CP1250", None, "ESRI Shapefile")
 
     if error == QgsVectorFileWriter.NoError:
       print "success!"
+
+    error = QgsVectorFileWriter.writeAsVectorFormat(layer, "my_json.json", "utf-8", None, "GeoJSON")
+    if error == QgsVectorFileWriter.NoError:
+      print "success again!"
+
+  Third parameter specifies output text encoding. Only some drivers need this for correct operation - shapefiles are one of those - however in case you are
+  not using international characters you do not have to care much about the encoding. The fourth parameter that we left as None may specify destination CRS - if
+  a valid instance of :class:`QgsCoordinateReferenceSystem` is passed, the layer is transformed to that CRS.
+
+  For valid driver names please consult the `supported formats by OGR`_ - you should pass the value in "Code" column as the driver name.
+  Optionally you can set whether to export only selected features, pass further driver-specific options for creation or tell the writer not to create attributes
+  - look into the documentation for full syntax.
+
+.. _supported formats by OGR: http://www.gdal.org/ogr/ogr_formats.html
+
 
 * directly from features::
 
@@ -133,13 +148,14 @@ There are two possibilities how to export a shapefile:
     fields = { 0 : QgsField("first", QVariant.Int),
                1 : QgsField("second", QVariant.String) }
 
-    # create an instance of vector file writer, it will create the shapefile. Arguments:
-    # 1. path to new shapefile (will fail if exists already)
+    # create an instance of vector file writer, it will create the vector file. Arguments:
+    # 1. path to new file (will fail if exists already)
     # 2. encoding of the attributes
     # 3. field map
     # 4. geometry type - from WKBTYPE enum
     # 5. layer's spatial reference (instance of QgsCoordinateReferenceSystem) - optional
-    writer = QgsVectorFileWriter("my_shapes.shp", "CP1250", fields, QGis.WKBPoint, None)
+    # 6. driver name for the output file
+    writer = QgsVectorFileWriter("my_shapes.shp", "CP1250", fields, QGis.WKBPoint, None, "ESRI Shapefile")
 
     if writer.hasError() != QgsVectorFileWriter.NoError:
       print "Error when creating shapefile: ", writer.hasError()
@@ -153,8 +169,6 @@ There are two possibilities how to export a shapefile:
 
     # delete the writer to flush features to disk (optional)
     del writer
-
-
 
 
 Memory Provider
