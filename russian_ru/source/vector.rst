@@ -124,21 +124,41 @@
 
 
 
-Запись shape-файлов
--------------------
+Запись векторных слоёв
+----------------------
 
-Для создания shape-файлов служит класс :class:`QgsVectorFileWriter`. Помимо
-shape-файлов, он позволяет создавать векторные файлы в любом, поддерживаемом
-OGR, формате.
+Для записи векторных данных на диск служит класс :class:`QgsVectorFileWriter`.
+Он позволяет создавать векторные файлы в любом, поддерживаемом OGR, формате
+(shape-файлы, GeoJSON, KML и другие).
 
-Существует два способа создать shape-файл:
+Существует два способа записать векторные данные в файл:
 
 * из экземпляра :class:`QgsVectorLayer`::
 
-    error = QgsVectorFileWriter.writeAsShapefile(layer, "my_shapes.shp", "CP1250")
-
+    error = QgsVectorFileWriter.writeAsVectorFormat(layer, "my_shapes.shp", "CP1250", None, "ESRI Shapefile")
     if error == QgsVectorFileWriter.NoError:
       print "success!"
+
+    error = QgsVectorFileWriter.writeAsVectorFormat(layer, "my_json.json", "utf-8", None, "GeoJSON")
+    if error == QgsVectorFileWriter.NoError:
+      print "success again!"
+
+Третий параметр задает конечную кодировку текста. Он требуется некоторым
+драйверам (в частности драйверу shape-файлов) для нормальной работы. В
+случае если вы не используете международные символы, специально заботиться
+о правильной кодировке не нужно. Четвертый параметр, который мы оставили
+пустым, задает целевую систему координат - если передан корректный экземпляр
+:class:`QgsCoordinateReferenceSystem`, слой будет трансформирован в эту
+систему координат.
+
+Узнать правильные названия драйверов можно на странице `supported formats by OGR`_
+- в качестве имени драйвера используется значение колонки "Code". При необходимости
+можно экспортировать только выделенные объекты, передать дополнительные
+параметры драйверу или запретить сохранение атрибутов - с полным синтаксисом
+можно ознакомиться в документации.
+
+.. _supported formats by OGR: http://www.gdal.org/ogr/ogr_formats.html
+
 
 * из отдельных объектов::
 
@@ -146,13 +166,14 @@ OGR, формате.
     fields = { 0 : QgsField("first", QVariant.Int),
                1 : QgsField("second", QVariant.String) }
 
-    # создаем экземпляр класса для записи shape-файлов. Аргументы:
-    # 1. путь к новому shape-файлу (если такой файл уже существует, возникнет ошибка)
+    # создаем экземпляр класса для записи векторных данных. Аргументы:
+    # 1. путь к новому файлу (если такой файл уже существует, возникнет ошибка)
     # 2. кодировка атрибутивных данных
     # 3. список полей
     # 4. тип геометрии --- из перечислимого типа WKBTYPE
     # 5. система координат слоя (экземпляр QgsCoordinateReferenceSystem) --- опционально
-    writer = QgsVectorFileWriter("my_shapes.shp", "CP1250", fields, QGis.WKBPoint, None)
+    # 6. имя используемого драйвера
+    writer = QgsVectorFileWriter("my_shapes.shp", "CP1250", fields, QGis.WKBPoint, None, "ESRI Shapefile")
 
     if writer.hasError() != QgsVectorFileWriter.NoError:
       print "Error when creating shapefile: ", writer.hasError()
@@ -166,8 +187,6 @@ OGR, формате.
 
     # уничтожаем объект класса и сбрасываем изменения на диск (опционально)
     del writer
-
-
 
 
 Memory провайдер
