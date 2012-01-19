@@ -63,6 +63,7 @@
     testplug/
       __init__.py
       plugin.py
+      metadata.txt
       resources.qrc
       resources.py
       form.ui
@@ -79,11 +80,20 @@
 * resources.py = Понятная Python версия вышеописанного файла.
 * form.ui = Интерфейс пользователя (GUI), созданный в QT-Designer.
 * form.py = Конвертированная в код Python версия вышеописанного файла.
+* metadata.txt = требуется в QGIS >= 1.8.0. Содержит общую информацию, версию
+  расширения, его название и другие метаданые, используемые новым репозиторием
+  расширений. Метаданным в metadata.txt отдается предпочтение перед методами
+  из файла :file:`__init__.py`. Если текстовый файл присутствует, именно
+  он будет использоваться для получения этой информации. Начиная с QGIS 2.0
+  метаданные из :file:`__init__.py` больше не будут использоваться и файл
+  :file:`metadata.txt` станет обязательным.
 
 `Здесь <http://pyqgis.org/builder/plugin_builder.py>`_ и `вот здесь <http://www.dimitrisk.gr/qgis/creator/>`_
 можно найти два способа автоматической генерации базовых файлов (скелета)
-типового Python расширения для QGIS. Это упростит работу и поможет быстрее
-начать разработку типового расширения.
+типового Python расширения для QGIS. Кроме того, существует модуль `Plugin
+Builder`, который создает шаблон модуля прямо из QGIS и не требует соединения
+с Интернет. Это упростит работу и поможет быстрее начать разработку типового
+расширения.
 
 Написание кода
 --------------
@@ -114,6 +124,62 @@ __init__.py
     # загружаем класс TestPlugin из файла testplugin.py
     from testplugin import TestPlugin
     return TestPlugin(iface)
+
+В QGIS 1.9.90 модули могут быть помещены не только в меню `Модули`, но и
+в меню `Растр`, `Вектор`, `База данных` и `Web`. Поэтому было введено новое
+поле метаданных "category". Это поле используется в качестве подсказки для
+пользователей и сообщает где (в каком меню) искать модуль. Допустимыми
+значениями для параметра "category" являются Vector, Raster, Database, Web
+и Layers. Например, если модуль должен быть доступен из меню `Растр`, добавьте
+в :file:`__init__.py` следующие строки::
+
+  def category():
+    return "Raster"
+
+
+metadata.txt
+^^^^^^^^^^^^
+
+Для QGIS >= 1.8 необходимо создать файл :file:`metadata.txt` (`см. также <https://github.com/qgis/qgis-django/blob/master/qgis-app/plugins/docs/introduction.rst>`_)
+Пример :file:`metadata.txt'::
+
+  ; the next section is mandatory
+  [general]
+  name=HelloWorld
+  qgisMinimumVersion=1.8
+  description=This is a plugin for greeting the
+      (going multiline) world
+  category=Raster
+  version=version 1.2
+  ; end of mandatory metadata
+
+  ; start of optional metadata
+  changelog=this is a very
+      very
+      very
+      very
+      very
+      very long multiline changelog
+
+  ; tags are in comma separated value format, spaces are allowed
+  tags=wkt,raster,hello world
+
+  ; these metadata can be empty
+  ; in a future version of the web application it will
+  ; be probably possible to create a project on redmine
+  ; if they are not filled
+
+  homepage=http://www.itopen.it
+  tracker=http://bugs.itopen.it
+  repository=http://www.itopen.it/repo
+  icon=icon.png
+
+  ; experimental flag
+  experimental=True
+
+  ; deprecated flag (applies to the whole plugin and not only to the uploaded version)
+  deprecated=False
+
 
 plugin.py
 ^^^^^^^^^
@@ -167,6 +233,53 @@ plugin.py
       # рисуем на карте, используя painter
       print "TestPlugin: renderTest called!"
 
+
+Если используется QGIS 1.9.90 или старше и необходимо разместить модуль в
+одном из новых меню (`Растр`, `Вектор`, `База данных` или `Web`), нужно
+модифицировать код функций ``initGui()`` и ``unload()``. Так как эти новые
+пункты меню доступны только в QGIS 1.9.90, прежде всего необходимо проверить,
+что используемая версия QGIS имеет все необходимые функции. Если новые
+пункты меню доступны, мы можем разместить модуль в нужном месте, в противном
+случае будем использовать меню `Модули` как и раньше. Вот пример для меню
+`Растр`::
+
+    def initGui(self):
+      # создаем действия для запуска расширения или его настройки
+      self.action = QAction(QIcon(":/plugins/testplug/icon.png"), "Test plugin", self.iface.mainWindow())
+      self.action.setWhatsThis("Configuration for test plugin")
+      self.action.setStatusTip("This is status tip")
+
+      QObject.connect(self.action, SIGNAL("triggered()"), self.run)
+
+      # проверяем, доступно ли меню Растр
+      if hasattr(self.iface, "addPluginToRasterMenu"):
+        # меню Растр и одноименная панель доступны
+        self.iface.addRasterToolBarIcon(self.action)
+        self.iface.addPluginToRasterMenu("&Test plugins", self.action)
+      else:
+        # меню Растр отсутствует, размещаем модуль в меню Модули, как и раньше
+        self.iface.addToolBarIcon(self.action)
+        self.iface.addPluginToMenu("&Test plugins", self.action)
+
+      # одключаемся к сигналу renderComplete, который посылается по завершению отрисовки карты
+      QObject.connect(self.iface.mapCanvas(), SIGNAL("renderComplete(QPainter *)"), self.renderTest)
+
+    def unload(self):
+      # проверям доступно ли меню Растр и удаляем наши кнопки из соответствующего
+      # меню и панели
+      if hasattr(self.iface, "addPluginToRasterMenu"):
+        self.iface.removePluginRasterMenu("&Test plugins",self.action)
+        self.iface.removeRasterToolBarIcon(self.action)
+      else:
+        self.iface.removePluginMenu("&Test plugins",self.action)
+        self.iface.removeToolBarIcon(self.action)
+
+      # отключаемся от сигнала карты
+      QObject.disconnect(self.iface.MapCanvas(), SIGNAL("renderComplete(QPainter *)"), self.renderTest)
+
+
+Полный список методов, которые можно использовать для размещения модуля
+в новых меню и на новых панелях инструментов доступен в `описании API <http://qgis.org/api/classQgisInterface.html>`_.
 
 В расширении обязательно должны присутствовать функции ``initGui()`` и
 ``unload()``. Эти функции вызываются когда расширение загружается и
