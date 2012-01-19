@@ -355,7 +355,7 @@ using equal intervals, quantiles or some other method.
 
 If you wish to create your own graduated symbol renderer you can do so as 
 illustrated in the example snippet below (which creates a simple two class
-arrangement::
+arrangement)::
 
 	from qgis.core import  (QgsVectorLayer,
                 		QgsMapLayerRegistry,
