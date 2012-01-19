@@ -249,15 +249,21 @@ Finally, let's check whether everything went well::
 Appearance (Symbology) of Vector Layers
 ---------------------------------------
 
-When a vector layer is being rendered, the appearance of the data is given by **renderer** and **symbols** associated with the layer.
-Symbols are classes which take care of drawing of visual representation of features, while renderers determine what symbol will be used for a particular feature.
+When a vector layer is being rendered, the appearance of the data is given by
+**renderer** and **symbols** associated with the layer.  Symbols are classes
+which take care of drawing of visual representation of features, while
+renderers determine what symbol will be used for a particular feature.
 
-In QGIS v1,4 a new vector rendering stack has been introduced in order to overcome the limitations of the original implementation. We refer to it as
-new symbology or symbology-ng (new generation), the original rendering stack is also called old symbology. Each vector layer uses either new symbology
-or old symbology, but never both at once or neither of them. It's not a global setting for all layers, so some layers might use new symbology while
-others still use old symbology. In QGIS options the user can specify what symbology should be used by default when layers are loaded.
-The old symbology will be kept in further QGIS v1.x releases for compatibility and we plan
-to remove it in QGIS v2.0.
+In QGIS v1,4 a new vector rendering stack has been introduced in order to
+overcome the limitations of the original implementation. We refer to it as new
+symbology or symbology-ng (new generation), the original rendering stack is
+also called old symbology. Each vector layer uses either new symbology or old
+symbology, but never both at once or neither of them. It's not a global setting
+for all layers, so some layers might use new symbology while others still use
+old symbology. In QGIS options the user can specify what symbology should be
+used by default when layers are loaded.  The old symbology will be kept in
+further QGIS v1.x releases for compatibility and we plan to remove it in QGIS
+v2.0.
 
 How to find out which implementation is currently in use::
 
@@ -328,16 +334,79 @@ The renderer usually stores also original symbol and color ramp which were used 
 Graduated Symbol Renderer
 .........................
 
-This renderer is very similar to the categorized symbol renderer described above, but instead of one attribute value per class
-it works with ranges of values and thus can be used only with numerical attributes.
+This renderer is very similar to the categorized symbol renderer described
+above, but instead of one attribute value per class it works with ranges of
+values and thus can be used only with numerical attributes.
 
 To find out more about ranges used in the renderer::
 
   for ran in rendererV2.ranges():
-    print "%f - %f: %s %s" % (ran.lowerValue(), ran.upperValue(), ran.label(), str(ran.symbol()))
+    print "%f - %f: %s %s" % (
+        ran.lowerValue(), 
+        ran.upperValue(), 
+        ran.label(), 
+        str(ran.symbol())
+        )
 
-You can again use :func:`classAttribute` to find out classification attribute name, :func:`sourceSymbol` and :func:`sourceColorRamp` methods.
-Additionally there is :func:`mode` method which determines how the ranges were created: using equal intervals, quantiles or some other method.
+you can again use :func:`classAttribute` to find out classification attribute
+name, :func:`sourceSymbol` and :func:`sourceColorRamp` methods.  Additionally
+there is :func:`mode` method which determines how the ranges were created:
+using equal intervals, quantiles or some other method.
+
+If you wish to create your own graduated symbol renderer you can do so as 
+illustrated in the example snippet below (which creates a simple two class
+arrangement::
+
+	from qgis.core import  (QgsVectorLayer,
+                		QgsMapLayerRegistry,
+				QgsGraduatedSymbolRendererV2,
+		                QgsSymbolV2,
+				QgsRendererRangeV2)
+
+	myVectorLayer = QgsVectorLayer(myVectorPath, myName, 'ogr')
+	myTargetField = myStyle['target_field']
+	myRangeList = []
+	myOpacity = 1
+	# Make our first symbol and range...
+	myMin = 0.0
+	myMax = 50.0
+	myLabel = 'Group 1'
+	myColour = QtGui.QColor('#ffee00')
+	mySymbol1 = QgsSymbolV2.defaultSymbol(
+		   myVectorLayer.geometryType())
+	mySymbol.setColor(myColour)
+	mySymbol.setAlpha(myOpacity)
+	myRange1 = QgsRendererRangeV2(
+		        myMin,
+		        myMax,
+		        mySymbol1,
+		        myLabel)
+	myRangeList.append(myRange1)
+	#now make another symbol and range...
+	myMin = 50.1
+	myMax = 100
+	myLabel = 'Group 2'
+	myColour = QtGui.QColor('#00eeff')
+	mySymbol2 = QgsSymbolV2.defaultSymbol(
+		   myVectorLayer.geometryType())
+	mySymbol.setColor(myColour)
+	mySymbol.setAlpha(myOpacity)
+	myRange2 = QgsRendererRangeV2(
+		        myMin,
+		        myMax,
+		        mySymbol2
+		        myLabel)
+	myRangeList.append(myRange2)
+	myRenderer = QgsGraduatedSymbolRendererV2(
+		        '', myRangeList)
+	myRenderer.setMode(
+		QgsGraduatedSymbolRendererV2.EqualInterval)
+	myRenderer.setClassAttribute(myTargetField)
+
+	myVectorLayer.setRendererV2(myRenderer)
+	QgsMapLayerRegistry.instance().addMapLayer(myVectorLayer)
+
+
 
 
 Working with Symbols
