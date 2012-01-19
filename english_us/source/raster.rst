@@ -1,10 +1,14 @@
 
 .. _raster:
 
+.. index:: Raster Layers; using
+
 Using Raster Layers
 ===================
 
 This sections lists various operations you can do with raster layers.
+
+.. index:: Raster Layers; details
 
 Layer Details
 -------------
@@ -27,6 +31,7 @@ In some cases, a raster layer comes with a palette and raster values refer to co
   >>> rlayer.hasPyramids()
   False
 
+.. index:: Raster Layers; drawing style
 
 Drawing Style
 -------------
@@ -62,6 +67,8 @@ of map canvas, see :ref:`refresh-layer`.
 
 **TODO:** contrast enhancements, transparency (no data), user defined min/max, band statistics
 
+.. index:: Rasters; single band
+
 Single Band Rasters
 -------------------
 
@@ -91,6 +98,8 @@ To return back to default gray levels, use:
 
   >>> rlayer.setDrawingStyle(QgsRasterLayer.SingleBandGray)
 
+.. index:: Rasters; multi band
+
 Multi Band Rasters
 ------------------
 
@@ -110,6 +119,9 @@ see previous section::
 
 .. _refresh-layer:
 
+.. index:: 
+  pair: Raster Layers; Refreshing
+
 Refresing Layers
 ----------------
 
@@ -127,6 +139,9 @@ In case you have changed layer symbology (see sections about raster and vector l
 symbology in the layer list (legend) widget. This can be done as follows (``iface`` is an instance of QgisInterface)::
 
    iface.legendInterface().refreshLayerSymbology(layer)
+
+.. index::
+  pair: Raster Layers; Querying
 
 Query Values
 ------------

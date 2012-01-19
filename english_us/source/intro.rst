@@ -24,6 +24,7 @@ There are several ways how to use QGIS python bindings, they are covered in deta
 * create and use plugins in Python
 * create custom applications based on QGIS API
 
+.. index:: API
 
 There is a `complete QGIS API <http://doc.qgis.org/>`_ reference that documents the classes from the QGIS libraries.
 Pythonic QGIS API is nearly identical to the API in C++.
@@ -31,6 +32,9 @@ Pythonic QGIS API is nearly identical to the API in C++.
 There are some resources about programming with PyQGIS on `QGIS blog <http://blog.qgis.org/>`_.
 See `QGIS tutorial ported to Python <http://blog.qgis.org/?q=node/59>`_ for some examples of simple 3rd party apps.
 A good resource when dealing with plugins is to download some plugins from `plugin repository <http://pyqgis.org/>`_ and examine their code.
+
+.. index:: 
+  pair: Python; console
 
 Python Console
 --------------
@@ -51,6 +55,8 @@ For convenience of the user, the following statements are executed when the cons
 
 For those which use the console often, it may be useful to set a shortcut for triggering the console (within menu :menuselection:`Settings --> Configure shortcuts...`)
 
+.. index:: Python; plugins
+
 Python Plugins
 --------------
 
@@ -62,6 +68,9 @@ Many plugins covering various functionality have been written since the introduc
 remove Python plugins. See `Python Plugin Repositories <http://www.qgis.org/wiki/Python_Plugin_Repositories>`_ page for various sources of plugins.
 
 Creating plugins in Python is simple, see :ref:`plugins` for detailed instructions.
+
+.. index:: 
+  pair: Python; custom applications
 
 Python Applications
 -------------------
@@ -99,6 +108,8 @@ When you are done with using QGIS library, call :func:`exitQgis` to make sure th
 
   QgsApplication.exitQgis()
 
+.. index:: 
+  pair: Custom applications; running
 
 Running Custom Applications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
