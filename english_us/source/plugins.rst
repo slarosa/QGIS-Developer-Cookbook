@@ -432,7 +432,7 @@ Releasing the plugin
 --------------------
 
 Once your plugin is ready and you think the plugin could be helpful for
-some people, do not hesitate to upload it to `PyQGIS plugin repository <http://pyqgis.org/>`_.
+some people, do not hesitate to upload it to `PyQGIS plugin repository <http://plugins.qgis.org/>`_.
 On that page you can find also packaging guidelines how to prepare the
 plugin to work well with the plugin installer. Or in case you would like
 to set up your own plugin repository, create a simple XML file that will
