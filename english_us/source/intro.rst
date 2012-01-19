@@ -109,7 +109,7 @@ When you are done with using QGIS library, call :func:`exitQgis` to make sure th
   QgsApplication.exitQgis()
 
 .. index:: 
-  pair: Custom applications; running
+  pair: custom applications; running
 
 Running Custom Applications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

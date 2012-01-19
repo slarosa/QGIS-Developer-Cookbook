@@ -7,7 +7,7 @@ Loading Layers
 Let's open some layers with data. QGIS recognizes vector and raster layers. Additionally, custom layer types are available, but we are not going to discuss them here.
 
 .. index:: 
-  pair: Vector layers; Loading
+  pair: vector layers; loading
 
 Vector Layers
 -------------
@@ -24,14 +24,14 @@ It is important to check whether the layer has been loaded successfully. If it w
 The following list shows how to access various data sources using vector data providers:
 
 .. index:: 
-  pair: Loading; OGR layers
+  pair: loading; OGR layers
 
 * OGR library (shapefiles and many other file formats) - data source is the path to the file::
 
     vlayer = QgsVectorLayer("/path/to/shapefile/file.shp", "layer_name_you_like", "ogr")
 
 .. index:: 
-  pair: Loading; PostGIS layers
+  pair: loading; PostGIS layers
 
 * PostGIS database - data source is a string with all information needed to create a connection to PostgreSQL database. :class:`QgsDataSourceURI` class can generate this string for you. 
   Note that QGIS has to be compiled with Postgres support, otherwise this provider isn't available.
@@ -46,7 +46,7 @@ The following list shows how to access various data sources using vector data pr
     vlayer = QgsVectorLayer(uri.uri(), "layer_name_you_like", "postgres")
 
 .. index:: 
-  pair: Loading; Delimited text layers
+  pair: loading; delimited text layers
 
 * CSV or other delimited text files - to open a file with a semicolon as a delimiter, with field "x" for x-coordinate and field "y" with y-coordinate you would use something like this::
 
@@ -62,7 +62,7 @@ The following list shows how to access various data sources using vector data pr
     uri = "file:///some/path/file.csv?delimiter=%s&crs=epsg:4723&wktField=%s" % (";", "shape")
 
 .. index::
-  pair: Loading; GPX files
+  pair: loading; GPX files
 
 * GPX files - the "gpx" data provider reads tracks, routes and waypoints from gpx files. To open a file, the type (track/route/waypoint) needs to be specified as part of the url::
 
@@ -70,7 +70,7 @@ The following list shows how to access various data sources using vector data pr
     vlayer = QgsVectorLayer(uri, "layer_name_you_like", "gpx")
 
 .. index::
-  pair: Loading; SpatiaLite layers
+  pair: loading; SpatiaLite layers
 
 * SpatiaLite database - supported from QGIS v1.1. Similarly to PostGIS databases, :class:`QgsDataSourceURI` can be used for generation of data source identifier::
 
@@ -81,7 +81,7 @@ The following list shows how to access various data sources using vector data pr
     vlayer = QgsVectorLayer(uri.uri(), 'Towns', 'spatialite')
 
 .. index::
-  pair: Loading; MySQL geometries
+  pair: loading; MySQL geometries
 
 * MySQL WKB-based geometries, through OGR - data source is the connection string to the table::
     
@@ -89,7 +89,7 @@ The following list shows how to access various data sources using vector data pr
     vlayer = QgsVectorLayer( uri, "my_table", "ogr" )
 
 .. index:: 
-  pair: Raster Layers; Loading
+  pair: raster layers; loading
   
 Raster Layers
 -------------
@@ -105,7 +105,7 @@ your GDAL has support for the particular format (not all formats are available b
     print "Layer failed to load!"
 
 .. index::
-  pair: Loading; WMS raster
+  pair: loading; WMS raster
 
 Alternatively you can load a raster layer from WMS server. However currently it's not possible to access GetCapabilities response from API - you have to know what layers you want::
 
@@ -118,7 +118,7 @@ Alternatively you can load a raster layer from WMS server. However currently it'
   if not rlayer.isValid():
     print "Layer failed to load!"
 
-.. index:: Map Layer Registry
+.. index:: map layer registry
 
 Map Layer Registry
 ------------------
@@ -126,7 +126,7 @@ Map Layer Registry
 If you would like to use the opened layers for rendering, do not forget to add them to map layer registry. The map layer registry takes ownership of layers
 and they can be later accessed from any part of the application by their unique ID. When the layer is removed from map layer registry, it gets deleted, too.
 
-.. index:: Map Layer Registry; adding a layer
+.. index:: map layer registry; adding a layer
 
 Adding a layer to the registry::
 

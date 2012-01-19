@@ -9,7 +9,8 @@ This section summarizes various actions that can be done with vector layers.
 **TODO:**
    Editing, Layer vs. Data provider, ...
 
-.. index:: Vector layers; iterating
+.. index:: 
+  triple: vector layers; iterating; features
 
 Iterating over Vector Layer
 ---------------------------
@@ -86,7 +87,7 @@ To obtain field index from its name, use provider's :func:`fieldNameIndex` funct
   if fldDesc == -1:
     print "Field not found!"
 
-
+.. index:: spatial index; using
 
 Using Spatial Index
 -------------------
@@ -113,7 +114,7 @@ Using Spatial Index
 
 
 
-
+.. index:: vector layers; writing
 
 Writing Vector Layers
 ---------------------
@@ -172,6 +173,7 @@ There are two possibilities how to export a vector layer:
     # delete the writer to flush features to disk (optional)
     del writer
 
+.. index:: memory provider
 
 Memory Provider
 ---------------
@@ -247,6 +249,7 @@ Finally, let's check whether everything went well::
   while pr.nextFeature(f):
     print "F:",f.id(), f.attributeMap(), f.geometry().asPoint()
 
+.. index:: vector layers; symbology
 
 Appearance (Symbology) of Vector Layers
 ---------------------------------------
@@ -285,6 +288,7 @@ Note: if you plan to support also earlier versions (i.e. QGIS < 1.4), you should
 
 We are going to focus primarily on new symbology because it has better capabilities are more options for customization.
 
+.. index:: symbology; new
 
 New Symbology
 ^^^^^^^^^^^^^
@@ -310,12 +314,15 @@ It is possible to obtain a dump of a renderer contents in text form - can be use
 
   print rendererV2.dump()
 
+.. index:: symbology; single symbol renderer
 
 Single Symbol Renderer
 ......................
 
 You can get the symbol used for rendering by calling :func:`symbol` method and change it with :func:`setSymbol` method
 (note for C++ devs: the renderer takes ownership of the symbol.)
+
+.. index:: categorized symbology renderer, symbology; categorized symbol renderer
 
 Categorized Symbol Renderer
 ...........................
@@ -332,6 +339,8 @@ used for category description and :func:`symbol` method returns assigned symbol.
 
 The renderer usually stores also original symbol and color ramp which were used for the classification:
 :func:`sourceColorRamp` and :func:`sourceSymbol` methods.
+
+.. index:: symbology; graduated symbol renderer, graduated symbol renderer
 
 Graduated Symbol Renderer
 .........................
@@ -409,7 +418,7 @@ arrangement::
 	QgsMapLayerRegistry.instance().addMapLayer(myVectorLayer)
 
 
-
+.. index:: symbols; working with
 
 Working with Symbols
 ....................
@@ -436,6 +445,8 @@ for line symbols there is :func:`width` method returning line width.
 
 Size and width are in millimeters by default, angles are in degrees.
 
+.. index:: symbol layers; working with
+
 Working with Symbol Layers
 ..........................
 
@@ -449,6 +460,7 @@ Each symbol layer type has a specific set of properties that it uses.
 Additionally, there are generic methods :func:`color`, :func:`size`, :func:`angle`, :func:`width` with their setter counterparts.
 Of course size and angle is available only for marker symbol layers and width for line symbol layers.
 
+.. index:: symbol layers; creating custom types
 
 Creating Custom Symbol Layer Types
 ..................................
@@ -559,6 +571,8 @@ And there is :func:`createSymbolLayerWidget` method which returns settings widge
 
 The last step is to add this symbol layer to the registry --- and we are done.
 
+.. index:: 
+  pair: custom; renderers
 
 Creating Custom Renderers
 .........................
@@ -670,7 +684,7 @@ Further Topics
  * rule-based renderer
  * exploring symbol layer and renderer registries
 
-
+.. index:: symbology; old
 
 Old Symbology
 ^^^^^^^^^^^^^
