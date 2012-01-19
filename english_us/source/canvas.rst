@@ -1,3 +1,4 @@
+.. index:: map canvas
 
 .. _canvas:
 
@@ -36,12 +37,15 @@ current shape of the polygon. All map canvas items are subclasses of
 :class:`QgsMapCanvasItem` which adds some more functionality to the basic
 ``QGraphicsItem`` objects.
 
+.. index:: map canvas; architecture
+
 To summarize, the map canvas architecture consists of three concepts:
 
 * map canvas --- for viewing of the map,
 * map canvas items --- additional items that can be displayed in map canvas,
 * map tools --- for interaction with map canvas.
 
+.. index:: map canvas; embedding
 
 Embedding Map Canvas
 --------------------
@@ -87,6 +91,8 @@ layers for canvas::
   canvas.setLayerSet( [ QgsMapCanvasLayer(layer) ] )
 
 After executing these commands, the canvas should show the layer you have loaded.
+
+.. index:: map canvas; map tools
 
 Using Map Tools with Canvas
 ---------------------------
@@ -169,6 +175,8 @@ Just make sure that the ``mywnd.py`` file is located within Python search path
 '/my/path')`` --- otherwise the import statement will fail, not finding the
 module.
 
+.. index:: map canvas; rubber bands, map canvas; vertex markers
+
 Rubber Bands and Vertex Markers
 -------------------------------
 
@@ -231,10 +239,14 @@ icon type, size, color and pen width::
 For temprary hiding of vertex markers and removing them from canvas, the same
 applies as for the rubber bands.
 
+.. index:: map canvas; writing custom map tools
+
 Writing Custom Map Tools
 ------------------------
 
 **TODO:** how to create a map tool
+
+.. index:: map canvas; writing custom canvas items
 
 Writing Custom Map Canvas Items
 -------------------------------

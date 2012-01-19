@@ -1,3 +1,4 @@
+.. index:: expressions, filtering, calculating values
 
 .. _expressions:
 
@@ -44,6 +45,7 @@ Examples of scalar expressions:
 * ``sqrt(val)``
 * ``$length + 1``
 
+.. index:: expressions; parsing
 
 Parsing Expressions
 -------------------
@@ -62,6 +64,8 @@ Parsing Expressions
   PyQt4.QtCore.QString(u'syntax error, unexpected $end')
 
 **TODO:** working with the tree, evaluation as a predicate, as a function, error handling
+
+.. index:: expressions; evaluating
 
 Evaluating Expressions
 ----------------------

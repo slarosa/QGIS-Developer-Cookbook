@@ -314,7 +314,7 @@ It is possible to obtain a dump of a renderer contents in text form - can be use
 
   print rendererV2.dump()
 
-.. index:: symbology; single symbol renderer
+.. index:: single symbol renderer, symbology; single symbol renderer
 
 Single Symbol Renderer
 ......................

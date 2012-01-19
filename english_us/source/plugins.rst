@@ -1,3 +1,4 @@
+.. index:: plugins; developing, Python; developing plugins
 
 .. _plugins:
 
@@ -40,6 +41,7 @@ Steps:
 5. *Publish*: Publish your plugin in QGIS repository or make your own
    repository as an "arsenal" of personal "GIS weapons" 
 
+.. index:: plugins; writing
 
 Writing a plugin
 ----------------
@@ -51,6 +53,7 @@ programming with PyQGIS or find out whether you are not duplicating development
 effort. Ready to create a plugin but no idea what to do? `Python Plugin Ideas wiki page <http://www.qgis.org/wiki/Python_Plugin_Ideas>`_\
 lists wishes from the community!
 
+.. index:: plugins; necessary files
 
 Creating necessary files
 ------------------------
@@ -91,8 +94,12 @@ QGIS Python plugin. Also there is a QGIS plugin called `Plugin Builder`
 that creates plugin template from QGIS and don't require internet connection.
 Useful to help you start with a typical plugin.
 
+.. index:: plugins; writing code
+
 Writing code
 ------------
+
+.. index:: plugins; __init__.py, __init__.py
 
 __init__.py
 ^^^^^^^^^^^
@@ -131,6 +138,7 @@ available from `Raster` menu, add this to :file:`__init__.py`::
   def category():
     return "Raster"
 
+.. index:: plugins; metadata.txt, metadata, metadata.txt
 
 metadata.txt
 ^^^^^^^^^^^^
@@ -175,6 +183,7 @@ An exampe for this metadata.txt::
   deprecated=False
 
 
+.. index:: plugins; plugin.py, plugin.py
 
 plugin.py
 ^^^^^^^^^
@@ -277,6 +286,8 @@ available in the `API docs <http://qgis.org/api/classQgisInterface.html>`_.
 The only plugin functions that must exist are ``initGui()`` and ``unload()``.
 These functions are called when the plugin is loaded and unloaded.
 
+.. index:: plugins; resource file, resources.qrc
+
 Resource File
 ^^^^^^^^^^^^^
 
@@ -305,6 +316,8 @@ When working on a real plugin it's wise to write the plugin in another
 (working) directory and create a makefile which will generate UI + resource
 files and install the plugin to your QGIS installation.
 
+.. index:: plugins; documentation, plugins; implementing help
+
 Documentation
 -------------
 
@@ -327,10 +340,14 @@ filename, which can replace "index" in the names of files being searched,
 and section, which is the name of an html anchor tag in the document
 on which the browser will be positioned.
 
+.. index:: plugins; code snippets
+
 Code Snippets
 -------------
 
 This section features code snippets to facilitate plugin development.
+
+.. index:: plugins; call method with shortcut
 
 How to call a method by a key shortcut
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -351,6 +368,8 @@ The method that is called when F7 is pressed::
   def keyActionF7(self):
     QMessageBox.information(self.iface.mainWindow(),"Ok", "You pressed F7")
 
+.. index:: plugins; toggle layers
+
 How to toggle Layers (work around)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -370,6 +389,8 @@ here is a workaround how to toggle the layers using layer transparency::
 The method requires the layer number (0 being the top most) and can be called by::
 
   self.toggleLayer(3)
+
+.. index:: plugins; access attributes of selected features
 
 How to access attribute table of selected features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -401,6 +422,7 @@ field of the selected feature(s)) and can be called by::
 
   self.changeValue(50)
 
+.. index:: plugins; debugging with PDB, debugging plugins
 
 How to debug a plugin using PDB
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -425,8 +447,12 @@ On Mac OS X do:
 
 And when the application hits your breakpoint you can type in the console!
 
+.. index:: plugins; testing
+
 Testing
 -------
+
+.. index:: plugins; releasing
 
 Releasing the plugin
 --------------------
@@ -437,6 +463,8 @@ On that page you can find also packaging guidelines how to prepare the
 plugin to work well with the plugin installer. Or in case you would like
 to set up your own plugin repository, create a simple XML file that will
 list the plugins and their metadata, for examples see other `plugin repositories <http://www.qgis.org/wiki/Python_Plugin_Repositories>`_.
+
+.. index:: plugins; Windows IDE configuration
 
 Remark: Configuring Your IDE on Windows
 ---------------------------------------

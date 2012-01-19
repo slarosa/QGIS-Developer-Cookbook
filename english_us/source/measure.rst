@@ -1,3 +1,4 @@
+.. index:: measuring
 
 .. _measure:
 

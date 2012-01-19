@@ -1,3 +1,4 @@
+.. index:: plugin layers
 
 .. _pluginlayer:
 
@@ -8,6 +9,8 @@ If your plugin uses its own methods to render a map layer, writing your own laye
 
 **TODO:**
    Check correctness and elaborate on good use cases for QgsPluginLayer, ...
+
+.. index:: plugin layers; subclassing QgsPluginLayer
 
 Subclassing QgsPluginLayer
 --------------------------

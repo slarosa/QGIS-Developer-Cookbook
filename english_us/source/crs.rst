@@ -4,6 +4,8 @@
 Projections Support 
 ===================
 
+.. index:: coordinate reference systems
+
 Coordinate reference systems
 ----------------------------
 
@@ -55,6 +57,7 @@ Accessing spatial reference system information::
   # check type of map units in this CRS (values defined in QGis::units enum)
   print "Map units:", crs.mapUnits()
 
+.. index:: projections
 
 Projections
 -----------

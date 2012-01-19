@@ -1,3 +1,4 @@
+.. index:: settings; reading, settings; storing
 
 .. settings:
 
@@ -11,6 +12,8 @@ variable - for user's favourite color you could use key "favourite_color" or any
 to naming of keys.
 
 We can make difference between several types of settings:
+
+.. index:: settings; global
 
 * **global settings** - they are bound to the user at particular machine. QGIS itself stores a lot of global settings,
   for example, main window size or default snapping tolerance. This functionality is provided directly by Qt framework by the means of QSettings class.
@@ -37,6 +40,7 @@ We can make difference between several types of settings:
   * toInt() and toDouble() return tuples (value, ok) - the second item indicates True
     if whether the conversion from QVariant to the number went fine - in this example we ignore that indicator and only take the value.
   
+.. index:: settings; project
 
 * **project settings** vary between different projects and therefore they are connected with a project file.
   Map canvas background or destination coordinate reference system (CRS) are examples - white background and WGS84 might be suitable for one project,
@@ -54,6 +58,8 @@ We can make difference between several types of settings:
 
   Hopefully the QgsProject class will be updated in future to provide API similar to the one of QSettings class. Due to some limitations of
   Python bindings, it is not possible to save floating point numbers.
+
+.. index:: settings; map layer
 
 * **map layer settings** - these settings are related to a particular instance of a map layer with a project. They are *not* connected with underlying
   data source of a layer, so if you create two map layer instances of one shapefile, they will not share the settings. The settings are stored in project

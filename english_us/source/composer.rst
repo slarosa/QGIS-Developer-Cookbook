@@ -1,3 +1,4 @@
+.. index:: map rendering, map printing
 
 .. _composer:
 
@@ -7,6 +8,7 @@ Map Rendering and Printing
 There are generally two approaches when input data should be rendered as a map: either do it quick way using :class:`QgsMapRenderer` or
 produce more fine-tuned output by composing the map with :class:`QgsComposition` class and friends.
 
+.. index:: map rendering; simple
 
 Simple Rendering
 ----------------
@@ -47,6 +49,7 @@ Render some layers using :class:`QgsMapRenderer` - create destination paint devi
   # save image
   img.save("render.png","png")
 
+.. index:: output; using Map Composer
 
 Output using Map Composer
 -------------------------
@@ -137,6 +140,7 @@ size is specified in millimeters::
   c.setPaperSize(width, height)
   c.setPrintResolution(dpi)
 
+.. index:: output; raster image
 
 Output to a raster image
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,6 +167,7 @@ The following code fragment shows how to render a composition to a raster image:
 
   image.save("out.png", "png")
 
+.. index:: output; PDF
 
 Output to PDF
 ~~~~~~~~~~~~~
