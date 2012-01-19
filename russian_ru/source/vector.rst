@@ -386,6 +386,61 @@ C++: рендер становится владельцем символа).
 метод :func:`mode` позволяет узнать какой алгоритм использовался для создания
 диапазонов: равные интервалы, квантили или что-то другое.
 
+Если вы хотите создать свой рендер категориями, можете воспользоваться
+следующим фрагментом кода в качестве отправной точки. Пример ниже создает
+простое разделение объектов на два класса::
+
+	from qgis.core import  (QgsVectorLayer,
+                		QgsMapLayerRegistry,
+				QgsGraduatedSymbolRendererV2,
+		                QgsSymbolV2,
+				QgsRendererRangeV2)
+
+	myVectorLayer = QgsVectorLayer(myVectorPath, myName, 'ogr')
+	myTargetField = myStyle['target_field']
+	myRangeList = []
+	myOpacity = 1
+	# создаем первый символ и диапазон...
+	myMin = 0.0
+	myMax = 50.0
+	myLabel = 'Group 1'
+	myColour = QtGui.QColor('#ffee00')
+	mySymbol1 = QgsSymbolV2.defaultSymbol(
+		   myVectorLayer.geometryType())
+	mySymbol.setColor(myColour)
+	mySymbol.setAlpha(myOpacity)
+	myRange1 = QgsRendererRangeV2(
+		        myMin,
+		        myMax,
+		        mySymbol1,
+		        myLabel)
+	myRangeList.append(myRange1)
+	# теперь создаем другой символ и диапазое...
+	myMin = 50.1
+	myMax = 100
+	myLabel = 'Group 2'
+	myColour = QtGui.QColor('#00eeff')
+	mySymbol2 = QgsSymbolV2.defaultSymbol(
+		   myVectorLayer.geometryType())
+	mySymbol.setColor(myColour)
+	mySymbol.setAlpha(myOpacity)
+	myRange2 = QgsRendererRangeV2(
+		        myMin,
+		        myMax,
+		        mySymbol2
+		        myLabel)
+	myRangeList.append(myRange2)
+	myRenderer = QgsGraduatedSymbolRendererV2(
+		        '', myRangeList)
+	myRenderer.setMode(
+		QgsGraduatedSymbolRendererV2.EqualInterval)
+	myRenderer.setClassAttribute(myTargetField)
+
+	myVectorLayer.setRendererV2(myRenderer)
+	QgsMapLayerRegistry.instance().addMapLayer(myVectorLayer)
+
+
+
 
 Работа с символами
 ..................
