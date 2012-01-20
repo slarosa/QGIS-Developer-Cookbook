@@ -450,9 +450,31 @@ Size and width are in millimeters by default, angles are in degrees.
 Working with Symbol Layers
 ..........................
 
-As said before, symbol layers (subclasses of :class:`QgsSymbolLayerV2`) determine the appearance of the features.
-There are several basic symbol layer classes for general use. It is possible to implement new symbol layer types and thus arbitrarily customize how features will be rendered.
-The :func:`layerType` method uniquely identifies the symbol layer class --- the basic and default ones are SimpleMarker, SimpleLine and SimpleFill symbol layers types.
+As said before, symbol layers (subclasses of :class:`QgsSymbolLayerV2`)
+determine the appearance of the features.  There are several basic symbol layer
+classes for general use. It is possible to implement new symbol layer types and
+thus arbitrarily customize how features will be rendered.
+The :func:`layerType` method uniquely identifies the symbol layer class --- the
+basic and default ones are SimpleMarker, SimpleLine and SimpleFill symbol
+layers types.
+
+You can get a complete list of the types of symbol layers you can create for a
+given symbol layer class like this::
+
+  from qgis.core import QgsSymbolLayerV2Registry
+  myRegistry = QgsSymbolLayerV2Registry.instance()
+  myMetadata = myRegistry.symbolLayerMetadata("SimpleFill")
+  for item in myRegistry.symbolLayersForType(QgsSymbolV2.Marker): 
+    print item
+
+Output::
+
+  EllipseMarker
+  FontMarker
+  SimpleMarker
+  SvgMarker
+  VectorField
+
 :class:`QgsSymbolLayerV2Registry` class manages a database of all available symbol layer types.
 
 To access symbol layer data, use its :func:`properties` method that returns a key-value dictionary of properties which determine the appearance.
