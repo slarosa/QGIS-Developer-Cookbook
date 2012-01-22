@@ -1,3 +1,4 @@
+.. index:: выражения, фильтрация, вычисление значений
 
 .. _expressions:
 
@@ -67,6 +68,8 @@ QGIS может выполнять разбор и анализ SQL-подобн
   PyQt4.QtCore.QString(u'syntax error, unexpected $end')
 
 **TODO:** working with the tree, evaluation as a predicate, as a function, error handling
+
+.. index:: выражения; вычисление
 
 Вычисление выражений
 --------------------

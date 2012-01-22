@@ -1,7 +1,8 @@
+.. index:: слои расширений
 
 .. _pluginlayer:
 
-Использование слоёв расширения
+Использование слоёв расширений
 ==============================
 
 Если расширение использует собственные методы для отрисовки слоёв карты,
@@ -10,6 +11,8 @@ QgsPluginLayer.
 
 **TODO:**
    Check correctness and elaborate on good use cases for QgsPluginLayer, ...
+
+.. index:: слои расширений; наследование QgsPluginLayer
 
 Наследование QgsPluginLayer
 ---------------------------

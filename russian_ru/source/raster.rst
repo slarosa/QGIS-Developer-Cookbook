@@ -1,11 +1,15 @@
 
 .. _raster:
 
+.. index:: растровые слои; использование
+
 Работа с растровыми слоями
 ==========================
 
 Этот раздел описывает различные действия, которые можно выполнять с
 растровыми слоями.
+
+.. index:: растровые слои; информация
 
 Информация о слое
 -----------------
@@ -31,6 +35,7 @@
   >>> rlayer.hasPyramids()
   False
 
+.. index:: растровые слои; стиль отображения
 
 Стиль отображения
 -----------------
@@ -70,6 +75,8 @@
 
 **TODO:** contrast enhancements, transparency (no data), user defined min/max, band statistics
 
+.. index:: растры; одноканальные
+
 Одноканальные растры
 --------------------
 
@@ -107,6 +114,8 @@ color (for pixel values from 0 to 255)::
 
   >>> rlayer.setDrawingStyle(QgsRasterLayer.SingleBandGray)
 
+.. index:: растры; многоканальные
+
 Многоканальные растры
 ---------------------
 
@@ -128,6 +137,9 @@ color (for pixel values from 0 to 255)::
   >>> rlayer.setGrayBandName(rlayer.bandName(1))
   >>> rlayer.setColorShadingAlgorithm(QgsRasterLayer.PseudoColorShader)
   >>> # далее идет установка шейдера
+
+.. index::
+  pair: растровые слои; обновление
 
 .. _refresh-layer:
 
@@ -155,6 +167,9 @@ color (for pixel values from 0 to 255)::
 делается (``iface`` это экземпляр QgisInterface)::
 
    iface.legendInterface().refreshLayerSymbology(layer)
+
+.. index::
+  pair: растровые слои; запросы
 
 Получение значений
 ------------------

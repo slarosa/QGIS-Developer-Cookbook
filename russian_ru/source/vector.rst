@@ -10,6 +10,10 @@
 **TODO:**
    Editing, Layer vs. Data provider, ...
 
+.. index::
+  triple: векторные слои; обход; объекты
+
+
 Обход объектов векторного слоя
 ------------------------------
 
@@ -93,7 +97,7 @@
   if fldDesc == -1:
     print "Field not found!"
 
-
+.. index:: пространственный индекс; использование
 
 Использование пространственного индекса
 ---------------------------------------
@@ -122,7 +126,7 @@
 
 
 
-
+.. index:: векторные слои; запись
 
 Запись векторных слоёв
 ----------------------
@@ -188,6 +192,7 @@
     # уничтожаем объект класса и сбрасываем изменения на диск (опционально)
     del writer
 
+.. index:: memory провайдер
 
 Memory провайдер
 ----------------
@@ -272,6 +277,7 @@ field=name:type(length,precision)
   while pr.nextFeature(f):
     print "F:",f.id(), f.attributeMap(), f.geometry().asPoint()
 
+.. index:: векторные слои; символика
 
 Внешний вид (символика) векторных слоёв
 ---------------------------------------
@@ -313,6 +319,7 @@ field=name:type(length,precision)
 В первую очередь и более подробно мы рассмотрим новую символику, так как
 она обладает большими возможностями и предоставляет больше настроек.
 
+.. index:: символика; новая
 
 Новая символика
 ^^^^^^^^^^^^^^^
@@ -340,6 +347,7 @@ graduatedSymbol    :class:`QgsGraduatedSymbolRendererV2`    Отрисовыва
 
   print rendererV2.dump()
 
+.. index:: рендер обычным знаком, символика; рендер обычным знаком
 
 Рендер обычным знаком
 .....................
@@ -347,6 +355,8 @@ graduatedSymbol    :class:`QgsGraduatedSymbolRendererV2`    Отрисовыва
 Получить символ, используемый для отрисовки, можно вызвав метод :func:`symbol`,
 а для его изменения служит метод :func:`setSymbol` (примечание для пишущих на
 C++: рендер становится владельцем символа).
+
+.. index:: рендер уникальными значениями, символика; hендер уникальными значениями
 
 Рендер уникальными значениями
 .............................
@@ -367,6 +377,8 @@ C++: рендер становится владельцем символа).
 Также рендер обычно сохраняет оригинальный символ и цветовую шкалу, которые
 использовались для классификации, получить их можно вызвав методы
 :func:`sourceColorRamp` и :func:`sourceSymbol` соответственно.
+
+.. index:: символика; рендер градуированным знаком, рендер градуированным знаком
 
 Рендер градуированным знаком
 ............................
@@ -390,57 +402,57 @@ C++: рендер становится владельцем символа).
 следующим фрагментом кода в качестве отправной точки. Пример ниже создает
 простое разделение объектов на два класса::
 
-	from qgis.core import  (QgsVectorLayer,
-                		QgsMapLayerRegistry,
-				QgsGraduatedSymbolRendererV2,
-		                QgsSymbolV2,
-				QgsRendererRangeV2)
+  from qgis.core import  (QgsVectorLayer,
+                    QgsMapLayerRegistry,
+        QgsGraduatedSymbolRendererV2,
+                    QgsSymbolV2,
+        QgsRendererRangeV2)
 
-	myVectorLayer = QgsVectorLayer(myVectorPath, myName, 'ogr')
-	myTargetField = myStyle['target_field']
-	myRangeList = []
-	myOpacity = 1
-	# создаем первый символ и диапазон...
-	myMin = 0.0
-	myMax = 50.0
-	myLabel = 'Group 1'
-	myColour = QtGui.QColor('#ffee00')
-	mySymbol1 = QgsSymbolV2.defaultSymbol(
-		   myVectorLayer.geometryType())
-	mySymbol.setColor(myColour)
-	mySymbol.setAlpha(myOpacity)
-	myRange1 = QgsRendererRangeV2(
-		        myMin,
-		        myMax,
-		        mySymbol1,
-		        myLabel)
-	myRangeList.append(myRange1)
-	# теперь создаем другой символ и диапазое...
-	myMin = 50.1
-	myMax = 100
-	myLabel = 'Group 2'
-	myColour = QtGui.QColor('#00eeff')
-	mySymbol2 = QgsSymbolV2.defaultSymbol(
-		   myVectorLayer.geometryType())
-	mySymbol.setColor(myColour)
-	mySymbol.setAlpha(myOpacity)
-	myRange2 = QgsRendererRangeV2(
-		        myMin,
-		        myMax,
-		        mySymbol2
-		        myLabel)
-	myRangeList.append(myRange2)
-	myRenderer = QgsGraduatedSymbolRendererV2(
-		        '', myRangeList)
-	myRenderer.setMode(
-		QgsGraduatedSymbolRendererV2.EqualInterval)
-	myRenderer.setClassAttribute(myTargetField)
+  myVectorLayer = QgsVectorLayer(myVectorPath, myName, 'ogr')
+  myTargetField = myStyle['target_field']
+  myRangeList = []
+  myOpacity = 1
+  # создаем первый символ и диапазон...
+  myMin = 0.0
+  myMax = 50.0
+  myLabel = 'Group 1'
+  myColour = QtGui.QColor('#ffee00')
+  mySymbol1 = QgsSymbolV2.defaultSymbol(
+       myVectorLayer.geometryType())
+  mySymbol.setColor(myColour)
+  mySymbol.setAlpha(myOpacity)
+  myRange1 = QgsRendererRangeV2(
+            myMin,
+            myMax,
+            mySymbol1,
+            myLabel)
+  myRangeList.append(myRange1)
+  # теперь создаем другой символ и диапазое...
+  myMin = 50.1
+  myMax = 100
+  myLabel = 'Group 2'
+  myColour = QtGui.QColor('#00eeff')
+  mySymbol2 = QgsSymbolV2.defaultSymbol(
+       myVectorLayer.geometryType())
+  mySymbol.setColor(myColour)
+  mySymbol.setAlpha(myOpacity)
+  myRange2 = QgsRendererRangeV2(
+            myMin,
+            myMax,
+            mySymbol2
+            myLabel)
+  myRangeList.append(myRange2)
+  myRenderer = QgsGraduatedSymbolRendererV2(
+            '', myRangeList)
+  myRenderer.setMode(
+    QgsGraduatedSymbolRendererV2.EqualInterval)
+  myRenderer.setClassAttribute(myTargetField)
 
-	myVectorLayer.setRendererV2(myRenderer)
-	QgsMapLayerRegistry.instance().addMapLayer(myVectorLayer)
+  myVectorLayer.setRendererV2(myRenderer)
+  QgsMapLayerRegistry.instance().addMapLayer(myVectorLayer)
 
 
-
+.. index:: символы; работа с
 
 Работа с символами
 ..................
@@ -474,6 +486,8 @@ C++: рендер становится владельцем символа).
 
 Размер и толщина по умолчанию задаются в миллиметрах, а углы --- в градусах.
 
+.. index:: символьные слои; работа с
+
 Работа со слоями символа
 ........................
 
@@ -483,8 +497,27 @@ C++: рендер становится владельцем символа).
 образом влиять на отрисовку объектов в достаточно широких пределах. Метод
 :func:`layerType` однозначно идентифицирует класс символьного слоя ---
 основными и доступными по умолчанию являются символьные слои
-SimpleMarker, SimpleLine и SimpleFill. Класс :class:`QgsSymbolLayerV2Registry`
-управляет базой всех доступных символьных слоёв.
+SimpleMarker, SimpleLine и SimpleFill.
+
+Получить полный список символьных слоёв, которые можно использовать в
+заданном символьном слое, можно так::
+
+  from qgis.core import QgsSymbolLayerV2Registry
+  myRegistry = QgsSymbolLayerV2Registry.instance()
+  myMetadata = myRegistry.symbolLayerMetadata("SimpleFill")
+  for item in myRegistry.symbolLayersForType(QgsSymbolV2.Marker):
+    print item
+
+Результат::
+
+  EllipseMarker
+  FontMarker
+  SimpleMarker
+  SvgMarker
+  VectorField
+
+Класс :class:`QgsSymbolLayerV2Registry` управляет базой всех доступных
+символьных слоёв.
 
 Получить доступ к данным символьного слоя можно при помощи метода :func:`properties`,
 который возвращает словарь (пары ключ-значение) свойств, влияющих на внешний
@@ -494,6 +527,7 @@ SimpleMarker, SimpleLine и SimpleFill. Класс :class:`QgsSymbolLayerV2Regis
 что размер и угол поворота доступны только для символьных слоёв типа маркер,
 а толщина --- только для слоёв типа линия.
 
+.. index:: символьные слои; создание пользовательских
 
 Создание пользовательских символьных слоёв
 ..........................................
@@ -622,6 +656,8 @@ QString, а не объектами "str"). Метод :func:`createSymbolLayerW
 
 Последней конструкцией мы добавляем символьный слой в реестр --- на этом все.
 
+.. index::
+  pair: пользовательские; рендеры
 
 Создание пользовательских рендеров
 ..................................
@@ -749,7 +785,7 @@ Further Topics
  * rule-based renderer
  * exploring symbol layer and renderer registries
 
-
+.. index:: символика; старая
 
 Старая символика
 ^^^^^^^^^^^^^^^^
