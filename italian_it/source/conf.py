@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PyQGIS Developer Cookbook'
-copyright = u'2010-2011, Martin Dobias - tradotto da Pasquale Di Donato'
+copyright = u'2010-2011, Martin Dobias'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
