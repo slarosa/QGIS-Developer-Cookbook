@@ -6,6 +6,8 @@
 PyQGIS Developer Cookbook
 =====================================================
 
+Contenuti:
+
 .. toctree::
    :maxdepth: 2
 
