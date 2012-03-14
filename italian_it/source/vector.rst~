@@ -129,9 +129,9 @@ Ci sono due possibilità per esportare un layer vettoriale:
 
 Il terzo parametro specifica la codifica dell'output. Solo alcuni driver necessitano di specificare tale parametro (non è il caso degli shapefile): ad ogni modo, se non si usano caratteri internazionali, non c'è necessità di preoccuparsene. Il quarto parametro (impostato a None nell'esempio) permette di impostate il sistema di riferimento per le coordinate dell'output, se viene passata una istanza valida di :class:`QgsCoordinateReferenceSystem`.
 
-Per i nomi dei driver, consultare `i formati supportati da OGR`_ - usare il valore del campo "Code" come nome del driver. E' possibile definire se esportare i soli elementi selezionati, passare altre opzioni specifiche del driver, se creare o meno gli attributi - si guardi la documentazione per la sintassi completa.
+Per i nomi dei driver, consultare `i formati supportati da OGR`_: usare il valore del campo "Code" come nome del driver. E' possibile definire se esportare i soli elementi selezionati, passare altre opzioni specifiche del driver, se creare o meno gli attributi - si guardi la documentazione per la sintassi completa.
 
-.. _i formati supportati da OGR: http://www.gdal.org/ogr/ogr_formats.html
+.. _supported formats by OGR: http://www.gdal.org/ogr/ogr_formats.html
 
 
 * direttamente dagli elementi::

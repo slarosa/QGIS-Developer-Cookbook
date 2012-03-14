@@ -16,9 +16,6 @@ dipende dal fatto che il codice di QGIS dipende dalle librerie Qt. Il binding
 a Python per le Qt (PyQT) utilizza SIP. il che permette una facile integrazione
 di PyQGIS con PyQt. 
 
-**TODO:**
-   Getting PyQGIS to work (Manual compilation, Troubleshooting)
-
 Ci sono diversi modi per utilizzare il binding a Python di QGIS:  
 
 * inserire comandi nella console Python di QGIS
@@ -31,7 +28,7 @@ Le API di QGIS sono estensivamente documentate al seguente `link <http://www.qgi
 Le API QGIS in PYTHON sono praticamente identiche alle API in C++.
  
 Nel `blog di QGIS <http://blog.qgis.org/>`_ ci sono varie risorse sulla programmazione
-con PyQGIS. Si guardi il `tutorial QGIS e Python <http://blog.qgis.org/?q=node/59>`_
+con PyGIS. Si guardi il `tutorial QGIS e Python <http://blog.qgis.org/?q=node/59>`_
 per alcuni esempi ed applicazioni. Se si intende sviluppare plugin, si suggerisce di
 scaricarne alcuni dal `repository dei plugin <http://plugins.qgis.org/>`_ e studiarne il codice.
 
@@ -49,7 +46,7 @@ La console si pare in una nuova finestra:
 La figura mostra come ottenere informazioni, come l'ID ed in numero di entità, 
 sul layer selezionato nella TOC di QGIS.
 Per interagire con l'ambiente QGIS bisogna utilizzare la variabile :data:`qgis.utils.iface`, 
-che è un'istanza della classe :class:`QgisInterface`. Quest'interfaccia permette di interagire con
+che è un'istanza della :class:`QgisInterface`. Quest'interfaccia permette di interagire con
 la vista mappa, i menu, le barre degli strumenti ed altre componenti di QGIS.
 
 Per convenienza dell'utente, i comandi seguenti sono da eseguire non appena si lancia la console
