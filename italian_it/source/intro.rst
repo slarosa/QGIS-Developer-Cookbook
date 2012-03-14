@@ -93,7 +93,7 @@ vista mappa, che può essere facilmente integrata nell'applicazione insieme anch
 Utilizzare PyQGIS nelle applicazioni personalizzate
 ---------------------------------------------------
 
-Nota: *non* usare :file:`qgis.py` come nome per i propri script di test; Python non sarà in grado di importare i binding.
+.. note:: *non* usare :file:`qgis.py` come nome per i propri script di test; Python non sarà in grado di importare i binding.
 
 Come prima cosa bisogna importare il modulo qgis ed impostare il percorso (path) a QGIS dove ricercare le varie risorse, database 
 delle proiezioni, i fornitori etc. Impostando il prefisso del percorso con un secondo argomento impostato a 
