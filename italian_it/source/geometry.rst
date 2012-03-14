@@ -80,3 +80,9 @@ Predicati ed operazioni
 
 QGIS usa la libreria GEOS per operazioni avanzate sulla geometria, come i predicati (:func:`contains`, :func:`intersects`, ...)
 e le operazioni (:func:`union`, :func:`difference`, ...).
+
+**TODO:**
+
+* :func:`area`, :func:`length`, :func:`distance`
+* :func:`transform`
+* available predicates and set operations

@@ -138,3 +138,6 @@ Per aggiungere un layer::
 Per eliminare un layer (si noti che i layer sono eliminati automaticamente all'uscita)::
 
   QgsMapLayerRegistry.instance().removeMapLayer(layer_id)
+
+**TODO:**
+   More about map layer registry?

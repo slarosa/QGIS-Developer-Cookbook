@@ -216,3 +216,35 @@ dimensione, colore e spessore della penna::
   m.setPenWidth(3)
 
 Per nascondere temporaneamente o eliminare gli indicatori di vertice si procede come per le bande elastiche.
+
+.. index:: area mappa; implementare uno strumento di mappa persomnalizzato
+
+Scrivere strumenti di Mappa personalizzati
+------------------------------------------
+
+**TODO:** how to create a map tool
+
+.. index:: area mappa; implementare oggetti per l'area di mappa
+
+Scrivere oggetti per l'area di mappa personalizzati
+---------------------------------------------------
+
+**TODO:** how to create a map canvas item
+
+
+
+.. TODO - custom application example?
+  from qgis.core import QgsApplication
+  from qgis.gui import QgsMapCanvas
+  import sys
+  def init():
+    a = QgsApplication(sys.argv, True)
+    QgsApplication.setPrefixPath('/home/martin/qgis/inst', True)
+    QgsApplication.initQgis()
+    return a
+  def show_canvas(app):
+    canvas = QgsMapCanvas()
+    canvas.show()
+    app.exec_()
+  app = init()
+  show_canvas(app)
