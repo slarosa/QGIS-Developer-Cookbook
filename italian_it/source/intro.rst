@@ -41,7 +41,7 @@ scaricarne alcuni dal `repository dei plugin <http://plugins.qgis.org/>`_ e stud
 La console Python
 =================
 
-La console Python può essere aperta dal menu di QGIS::menuselection:`Plugins --> Console python`.
+La console Python può essere aperta dal menu di QGIS: :menuselection:`Plugins --> Console python`.
 La console si pare in una nuova finestra:
 
 .. image:: console.png
@@ -98,10 +98,7 @@ Utilizzare PyQGIS nelle applicazioni personalizzate
 
 .. note:: *non* usare :file:`qgis.py` come nome per i propri script di test; Python non sarà in grado di importare i binding.
 
-Come prima cosa bisogna importare il modulo qgis ed impostare il percorso (path) a QGIS dove ricercare le varie risorse, database 
-delle proiezioni, i fornitori etc. Impostando il prefisso del percorso con un secondo argomento impostato a 
-:const:`True`, QGIS inizializzerà tutti i percorsi con standard dir sotto la directory del prefisso. 
-Per permettere a QGIS di ricercare i fornitori disponibili, è importante chiamare la funzione :func:`initQgis`
+Come prima cosa bisogna importare il modulo CORE di QGIS :py:mod:`qgis.core`. Successivamente viene impostato il percorso all'installazione di QGIS attraverso la funzione :func:`setPrefixPath` della classe :class:`QgsApplication` in modo da poter accedere a tutte le librerie e le risorse disponibile. E' necessario inizializzare la funzione :func:`initQgis` affinchè tutte le risorse vengono caricate correttamente.
 
 ::
 
@@ -152,8 +149,7 @@ ricerca del linker dinamico:
 * Linux: :command:`export LD_LIBRARY_PATH=/qgispath/lib`
 * Windows: :command:`set PATH=C:\\qgispath;%PATH%`
 
-Questi comandi possono anche essere inseriti in uno script di startup. 
-CI sono due modelli di sviluppo delle applicazioni personalizzate:
+Questi comandi possono anche essere inseriti in uno script di startup (file batch per Windows e shell script per Linux). Quando si implementano applicazioni personalizzate tramite PyQGIS, di solito ci sono due possibilità per i modelli di sviluppo:
 
 * richiedere all'utente di installare QGIS sul proprio sistema prima di
   installare l'applcazione personalizzata. L'installer dell'applicazione
@@ -165,5 +161,5 @@ CI sono due modelli di sviluppo delle applicazioni personalizzate:
   ma si evita all'utente di scaricare ed installare software aggiuntivo.
 
 I due modelli di sviluppo possono essere mixati - sviluppare applicazioni
-standalone per Windows e OSX, lasciare all'utente l'installazione di QGIS
+standalone per Windows e OSX, lasciare all'utente ed al gestore di pacchetti (apt, yum etc.) l'installazione di QGIS
 in Linux.
