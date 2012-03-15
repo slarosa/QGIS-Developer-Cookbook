@@ -51,6 +51,8 @@ Esempi di espressioni scalari:
 Parsing di espressioni
 ----------------------
 
+**TODO:** parsing, error handling
+
 ::
 
   >>> s = QgsSearchString()
@@ -61,6 +63,7 @@ Parsing di espressioni
   >>> s.parserErrorMsg()
   PyQt4.QtCore.QString(u'syntax error, unexpected $end')
 
+**TODO:** working with the tree, evaluation as a predicate, as a function, error handling
 
 .. index:: espressioni; valutazione
 

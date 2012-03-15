@@ -68,3 +68,6 @@ Vi sono diversi tipi di impostazioni:
 
    # legge il valore
    mytext = layer.customProperty("mytext", "default text").toString()
+
+**TODO:**
+   Keys for settings that can be shared among plugins

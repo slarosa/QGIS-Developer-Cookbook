@@ -7,6 +7,9 @@ Usare i layer plugin
 
 Il miglior modo per implementare un plugin che usa i propri metodi per la rappresentazione dei layer di mappa consiste nell'utilizzare QgsPluginLayer.
 
+**TODO:**
+   Check correctness and elaborate on good use cases for QgsPluginLayer, ...
+
 .. index:: layer plugin; derivare classi da QgsPluginLayer
 
 Derivare classi da QgsPluginLayer

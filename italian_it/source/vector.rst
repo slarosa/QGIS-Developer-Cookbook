@@ -6,6 +6,9 @@ Utilizzare layer Vettoriali
 
 Questa sezione riassume le varie operazioni possibili con i layer vettoriali.
 
+**TODO:**
+   Editing, Layer vs. Data provider, ...
+
 .. index:: 
   triple: layer vettoriali; iterare; elementi
 
@@ -88,6 +91,9 @@ Per ottenere l'indice del campo a partire dal suo nome, usare la funzione del fo
 
 Utilizzare l'indice spaziale
 ----------------------------
+
+**TODO:**
+   Intro to spatial indexing
 
 1. Creare un indice spaziale - il codice seguente permette di creare un indice vuoto::
 
@@ -652,6 +658,16 @@ il costruttore di classe base nella funzione RandomRendererMetadata __init__ div
 L'icona può essere associata in un secondo momento usando il metodo :func:`setIcon` della classe "metadata".
 L'icona può essere caricata da un file o da `Qt resource <http://qt.nokia.com/doc/4.5/resources.html>`_ (PyQt4 include un compilatore .qrc per Python).
 
+Ulteriori Argomenti
+...................
+
+**TODO:**
+ * creating/modifying symbols
+ * working with style (:class:`QgsStyleV2`)
+ * working with color ramps (:class:`QgsVectorColorRampV2`)
+ * rule-based renderer
+ * exploring symbol layer and renderer registries
+
 .. index:: simbologia; vecchia
 
 Vecchia simbologia
@@ -687,6 +703,14 @@ Come creare un simbolo SVG::
 
 I simboli SVG non supportano l'impostazione di colore, riempimento (fill) e stili linea.
 
+Come creare un simbolo lineare::
+
+  TODO
+
+Come creare un simbolo campitura::
+
+  TODO
+
 Creare un visualizzatore a simbolo singolo::
 
   sr = QgsSingleSymbolRenderer(QGis.Point)
@@ -695,6 +719,10 @@ Creare un visualizzatore a simbolo singolo::
 Assegnare il visualizzatore ad un layer::
 
   layer.setRenderer(sr)
+
+Creare un visualizzatore a valore univoco::
+
+  TODO
 
 Creare un visualizzatore a simbolo graduato::
 

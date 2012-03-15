@@ -14,3 +14,5 @@ ad un ellissoide. Quando l'ellossoide non è impostato, di default viene usato W
   d.setProjectionsEnabled(True)
   
   print "distance in meters: ", d.measureLine(QgsPoint(10,10),QgsPoint(11,11))
+
+**TODO:** area, planar vs. ellipsoid

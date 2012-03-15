@@ -64,6 +64,8 @@ I layer multi-banda sono rappresentati mappando le bande a colori RGB: è anche 
 La sezione seguente spiega come interrogare e modificare lo stile di disegno di un layer. Una volta fatti i cambiamenti del caso,
 bisogna aggiornare la vista mappa (vedi :ref:`refresh-layer`).
 
+**TODO:** contrast enhancements, transparency (no data), user defined min/max, band statistics
+
 .. index:: raster; banda singola
 
 Raster a banda singola
