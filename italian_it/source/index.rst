@@ -25,8 +25,9 @@ Contenuti:
    pluginlayer
    plugins
 
-Indices and tables
-==================
+Indice e ricerca
+================
 
 * :ref:`genindex`
+* :ref:`search`
 

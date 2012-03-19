@@ -12,14 +12,16 @@ Apriamo qualche layer di dati. QGIS gestisce layer vettoriali e raster. Inoltre,
 Layer vettoriali
 ----------------
 
-Per caricare un layer bisogna specificare l'identificatore della fonte dati, il nome del layer e del fornitore::
+Per caricare un layer bisogna specificare l'identificatore della fonte dati (``data_source``), il nome del layer (``layer_name``) e del fornitore (``provider_name``)::
 
   layer = QgsVectorLayer(data_source, layer_name, provider_name)
   if not layer.isValid():
     print "Layer failed to load!"
 
 L'identificatore della fonte dati è una stringa specifica per ogni fornitore di dati vettoriali. Il nome del layer viene usato nella
-widget della lista dei layer. E' importante controllare se il layer è stato caricato correttamente:
+TOC (Table Of Content) di QGIS dove è presente la lista dei layers. E' importante controllare se il layer è stato caricato correttamente.
+
+L'elenco seguente mostra alcuni esempi di come accedere a diverse fonti di dati:
 
 .. index:: 
   pair: caricare; layer OGR
@@ -31,7 +33,7 @@ widget della lista dei layer. E' importante controllare se il layer è stato car
 .. index:: 
   pair: caricare; layer PostGIS
 
-* Database PostGIS - la fonte dati è una stringa contenente le informazioni necessarie a creare una connessione ad un database PostgreSQL. La classe :class:`QgsDataSourceURI` può generare automaticamente questa stringa. 
+* Database PostGIS - la fonte dati è una stringa contenente le informazioni necessarie a creare una connessione ad un database PostgreSQL. La classe :class:`QgsDataSourceURI` viene utilizzata per generare questa stringa. 
   Si noti che QGIS deve essere compilato con il supporto a Postgres, altrimenti questo fornitore non sarà disponibile.
   ::
 
@@ -51,9 +53,8 @@ widget della lista dei layer. E' importante controllare se il layer è stato car
     uri = "/some/path/file.csv?delimiter=%s&xField=%s&yField=%s" % (";", "x", "y")
     vlayer = QgsVectorLayer(uri, "layer_name_you_like", "delimitedtext")
 
-  Nota: a partire dalla versione 1.7 di QGIS, la stringa del fornitore è strutturata come un URL,
-  con prefisso del percorso *file://*. E' possibile usare geometrie formattate (well known text) 
-  e specificare il sistema di riferimento delle coordinate.
+  .. note:: a partire dalla versione 1.7 di QGIS, la stringa del fornitore è strutturata come un URL, con prefisso del percorso *file://*. E' possibile usare geometrie formattate (well known text) e specificare il sistema di riferimento delle coordinate. 
+  
   Ad esempio::
 
     uri = "file:///some/path/file.csv?delimiter=%s&crs=epsg:4723&wktField=%s" % (";", "shape")
@@ -61,7 +62,7 @@ widget della lista dei layer. E' importante controllare se il layer è stato car
 .. index::
   pair: caricare; file GPX
 
-* File GPX - il fornitore "gpx" legge track, route e waypoint da un file gpx. Per aprire un file, il tipo (track/route/waypoint) deve essere specificato come parte dell'url::
+* File GPX - il fornitore "gpx" legge track, route e waypoint da un file gpx. Per aprire un file, il tipo (track/route/waypoint) deve essere specificato come parte dell'url attraverso l'elemento ``type=``::
 
     uri = "path/to/gpx/file.gpx?type=track"
     vlayer = QgsVectorLayer(uri, "layer_name_you_like", "gpx")
@@ -91,7 +92,7 @@ widget della lista dei layer. E' importante controllare se il layer è stato car
 Layer Raster
 ------------
 
-Il caricamento di file raster richiede l'uso della libreria GDAL: GDAL supporta un ampio range di formati file. In caso di problemi nel caricamento di un file, controllare che GDAL abbia il supporto per il formato specifico. Per caricare un raster da un file, specificare il nome del file ed il nome con cui si vuole identificare il layer nella TOC di QGIS (baseName)::
+Il caricamento di file raster richiede l'uso della libreria GDAL. GDAL supporta un ampio range di formati file. In caso di problemi nel caricamento di un file, controllare che GDAL abbia il supporto per il formato specifico. Per caricare un raster da un file, specificare il nome del file ed il nome con cui si vuole identificare il layer nella TOC di QGIS (``baseName``)::
 
   fileName = "/path/to/raster/file.tif"
   fileInfo = QFileInfo(fileName)
@@ -100,7 +101,7 @@ Il caricamento di file raster richiede l'uso della libreria GDAL: GDAL supporta 
   if not rlayer.isValid():
     print "Layer failed to load!"
 
-Nell'esempio, baseName è impostato al nome del file raster senza l'estensione. E' possibile assegnare un nome a proprio piacimento sostituendo la stringa::
+Nell'esempio, ``baseName`` è impostato al nome del file raster senza l'estensione. E' possibile assegnare un nome a proprio piacimento sostituendo la stringa::
 
   rlayer = QGSRasterLayer(fileName, baseName)
 
@@ -126,6 +127,7 @@ E' possibile anche caricare un raster da un server WMS. Attualmente non è possi
 
 Registro dei layer di mappa
 ---------------------------
+.. da controllare
 
 Per visualizzare un layer aperto, non dimenticare di aggiungerlo al registro dei layer di mappa. Il registro diventa "proprietario" dei layer, che possono poi essere utilizzati in ogni parte dell'applicazione tramite il loro ID univoco. Rimuovere un layer dal registro equivale a cancellarlo.
 
