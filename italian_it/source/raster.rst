@@ -13,7 +13,7 @@ Questa sezione elenca le varie operazioni possibili con i dati raster.
 Dettagli del layer
 ------------------
 
-Un layer raster consiste di una o più bacnde raster - si parla di raster a banda singola o multi-banda.
+Un layer raster consiste di una o più bande raster - si parla di raster a banda singola o multi-banda.
 Una banda rappresenta una matrice di valori. Le immagini a colori (es. le foto aeree) sono raster composti di una banda
 rossa, una blu ed una verde.
 I raster a banda singola possono rappresentare variabili continue (es. l'elevazione) o variabili discrete (es. uso del suolo).
@@ -53,7 +53,7 @@ Indice   Costante: QgsRasterLater.X     Commento
   9     MultiBandColor                 Layer con due o più bande rappresentate in RGB
 ====== =============================== ===============================================================================================
 
-Per cdonoscere lo stile corrente:
+Per conoscere lo stile corrente:
 
   >>> rlayer.drawingStyle()
   9
@@ -71,7 +71,7 @@ bisogna aggiornare la vista mappa (vedi :ref:`refresh-layer`).
 Raster a banda singola
 ----------------------
 
-I raster a banda singola sono rappresentato di default in gradazioni di grigi. Per cambiare lo stile in pseudocolore:
+I raster a banda singola sono rappresentati di default in gradazioni di grigi. Per cambiare lo stile in pseudocolore:
 
   >>> rlayer.setDrawingStyle(QgsRasterLayer.SingleBandPseudoColor)
   >>> rlayer.setColorShadingAlgorithm(QgsRasterLayer.PseudoColorShader)
@@ -92,7 +92,7 @@ Per impostare una rampa colore interpolata dal verde al giallo (pere valori di p
   >>> fcn.setColorRampType(QgsColorRampShader.INTERPOLATED)
   >>> fcn.setColorRampItemList(lst)
 
-Per ritornare ai livelli di grigio di defaul:
+Per ritornare ai livelli di grigio di default:
 
   >>> rlayer.setDrawingStyle(QgsRasterLayer.SingleBandGray)
 
