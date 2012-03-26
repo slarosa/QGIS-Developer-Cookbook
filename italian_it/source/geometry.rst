@@ -9,7 +9,7 @@ Punti, linee e poligoni che rappresentano elementi spaziali sono comunemente det
 In QGIS sono rappresentati dalla classe :class:`QgsGeometry`.
 Tutti i tipi di geometrie possibili sono descritti in `JTS discussion page <http://www.vividsolutions.com/jts/discussion.htm#spatialDataModel>`_.
 
-Una geometria può essere, in realtò, anche data da una collezione di geometrie semplici (dette a parte singola); tale tipo di geometria è detto "geometria multi-parte". Se contiene un solo tipo di geometria semplice, la chiamiamo multi-punto, multi-linea, multi-poligono.
+Una geometria può essere, in realtà, anche data da una collezione di geometrie semplici (dette a parte singola); tale tipo di geometria è detto "geometria multi-parte". Se contiene un solo tipo di geometria semplice, la chiamiamo multi-punto, multi-linea, multi-poligono.
 Ad esempio, uno stato che consiste di più isole può essere rappresentato come un multi-poligono.
 
 Le coordinate delle geometrie possono essere espresse in qualsiasi sistema di riferimento (CRS). Quando di recuperano elementi da un layer, le geometrie associate hanno coordinate espresse nel sistema di riferimento del layer stesso.
@@ -27,8 +27,10 @@ Ci sono diverse opzioni per la creazione di una geometria:
     gLine = QgsGeometry.fromPolyline( [ QgsPoint(1,1), QgsPoint(2,2) ] )
     gPolygon = QgsGeometry.fromPolygon( [ [ QgsPoint(1,1), QgsPoint(2,2), QgsPoint(2,1) ] ] )
 
-  Le coordinate sono date usando la classe :class:`QgsPoint`. Una polilinea è rappresentata da una lista di punti. Un poligono è rappresentato da una 
-  lista di linee che di richiudono; un poligono può contenere dei buchi.
+  Le coordinate sono date usando la classe :class:`QgsPoint`. 
+
+  Una polilinea è rappresentata da una lista di punti. Un poligono è rappresentato da una lista di linee che di richiudono; un poligono può contenere dei buchi.
+
   Un multi-poligono è una lista di punti. Una multi-linea è una lista di linee. Un multi-poligono è una lista di poligoni.
 
 * da well-known text (WKT)::
@@ -69,7 +71,7 @@ Per estrarre informazioni da una geometria ci sono delle funzioni di accesso per
   >>> gPolygon.asPolygon()
   [[(1,1), (2,2), (2,1), (1,1)]]
 
-Nota: le tuple (x,y) non sono tuple reali, ma oggetti di :class:`QgsPoint`, i cui valori sono accessibili con i metodi :func:`x` e :func:`y`.
+.. note:: le tuple (x,y) non sono tuple reali, ma oggetti di :class:`QgsPoint`, i cui valori sono accessibili con i metodi :func:`x` e :func:`y`.
 
 Per le geometrie multiparte ci sono funzioni simili: :func:`asMultiPoint`, :func:`asMultiPolyline`, :func:`asMultiPolygon()`.
 
