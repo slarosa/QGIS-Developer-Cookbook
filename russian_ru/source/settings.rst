@@ -24,8 +24,9 @@
   окна или порог прилипания. Эта функциональность обеспечивается Qt, точнее
   входящим в ее состав классом :class:`QSettings`. По умолчанию, этот класс
   хранит настройки в "родном" для системы виде --- реестр (для Windows), файл
-  .plist (на Mac OS X) или .ini файл (в Unix). Описание `QSettings documentation <http://doc.qt.nokia.com/stable/qsettings.html>`
-  достаточно обширное, поэтому ограничимся простым примером::
+  .plist (на Mac OS X) или .ini файл (в Unix). Описание `QSettings documentation
+  <http://doc.qt.nokia.com/stable/qsettings.html>`_ достаточно обширное,
+  поэтому ограничимся простым примером::
 
     def store():
       s = QSettings()

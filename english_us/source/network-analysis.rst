@@ -8,9 +8,10 @@ Starting from `ee19294562 <https://github.com/qgis/Quantum-GIS/commit/ee19294562
 (QGIS >= 1.8) the new network analysis library was added to the QGIS core
 analysis library. This library:
 
- * can create mathematical graph from geographical data (polyline vector layers)
- * implements basics method of the graph theory (currently only Dijkstra's
-   algorithm)
+* can create mathematical graph from geographical data (polyline vector
+  layers)
+* implements basics method of the graph theory (currently only Dijkstra's
+  algorithm)
 
 Network analysis library was created by exporting basics functions from
 RoadGraph core plugin and now you can use it it's methods in plugins or
@@ -63,65 +64,69 @@ can implement your own strategy that will use all necessary parameters.
 For example, RoadGraph plugin uses strategy that compute traveling time
 using edge length and speed value from attributes.
 
-It's time to dive in process.
+It's time to dive in process. First of all to use this library we should
+import ``networkanalysis`` module::
 
-First of all to use this library we should import networkanalysis module::
-
-from qgis.networkanalysis import *
+  from qgis.networkanalysis import *
 
 Than create director::
 
-# don't use information about roads direction from layer attributes,
-# all roads are treated as two-ways roads
-director = QgsLineVectorLayerDirector( vLayer, -1, '', '', '', 3 )
+  # don't use information about roads direction from layer attributes,
+  # all roads are treated as two-ways roads
+  director = QgsLineVectorLayerDirector( vLayer, -1, '', '', '', 3 )
 
-# use fied with index 5 as source of information about roads direction.
-# unilateral roads with direct direction have attribute value "yes",
-# unilateral roads with reverse direction — "1", and accordingly bilateral
-# roads — "no". By defaults roads are treated as two-ways roads. This
-# sheme can be used with OpenStreetMap data
-director = QgsLineVectorLayerDirector( vLayer, 5, 'yes', '1', 'no', 3 )
+  # use fied with index 5 as source of information about roads direction.
+  # unilateral roads with direct direction have attribute value "yes",
+  # unilateral roads with reverse direction — "1", and accordingly bilateral
+  # roads — "no". By defaults roads are treated as two-ways roads. This
+  # sheme can be used with OpenStreetMap data
+  director = QgsLineVectorLayerDirector( vLayer, 5, 'yes', '1', 'no', 3 )
 
 In director's constructor we should pass vector layer, that will be used
 as source for graph and information about allowed movement on each road
 segment (unilateral or bilateral movement, direct or reverse direction).
 Here is full list of this parameters:
 
- * vl — vector layer used to build graph
- * directionFieldId — index of the attribute table field, where information
-   about roads directions stored. If -1, then don't use this info at all
- * directDirectionValue — field value for roads with direct direction
-   (moving from first line point to last one)
- * reverseDirectionValue — field value for roads with reverse direction
-   (moving from last line point to first one)
- * bothDirectionValue — field value for bilateral roads
-   (for such roads we can move from first point to last and from last to first)
- * defaultDirection — default road direction. This value will be used for
-   those roads where field directionFieldId is not set or have some value
-   different from aboves.
+* ``vl`` --- vector layer used to build graph
+* ``directionFieldId`` --- index of the attribute table field, where
+  information about roads directions stored. If -1, then don't use this
+  info at all
+* ``directDirectionValue`` --- field value for roads with direct direction
+  (moving from first line point to last one)
+* ``reverseDirectionValue`` --- field value for roads with reverse direction
+  (moving from last line point to first one)
+* ``bothDirectionValue`` --- field value for bilateral roads
+  (for such roads we can move from first point to last and from last to
+  first)
+* ``defaultDirection`` --- default road direction. This value will be
+  used for those roads where field ``directionFieldId`` is not set or
+  have some value different from aboves.
 
 Then it is necessary to create strategy for calculating edge properties::
 
   properter = QgsDistanceArcProperter()
 
-And tell the director about this strategy::
+And tell the director about this strategy. Single director can use mulpitle
+strategies::
 
   director.addProperter( properter )
 
-Now we can create builder, which will create graph. QgsGraphBuilder constructor
-takes several arguments:
+Now we can create builder, which will create graph. :class:`QgsGraphBuilder`
+constructor takes several arguments:
 
-* crs — coordinate reference system to use. Mandatory argument.
-* otfEnabled — use  «on the fly» reprojection or no. By default true (use OTF).
-* topologyTolerance — topological tolerance. Default value is 0.
-* ellipsoidID — ellipsoid to use. By default "WGS84".
+* ``crs`` --- coordinate reference system to use. Mandatory argument.
+* ``otfEnabled`` --- use  "on the fly" reprojection or no. By default
+  true (use OTF).
+* ``topologyTolerance`` --- topological tolerance. Default value is 0.
+* ``ellipsoidID`` --- ellipsoid to use. By default "WGS84".
 
 ::
 
   # only CRS is set, all other values are defaults
   builder = QgsGraphBuilder( myCRS )
 
-Also  we can set several points, which will be used in analysis. For example::
+Also  we can set several points, which will be used in analysis. For
+example::
 
   startPoint = QgsPoint( 82.7112, 55.1672 )
   endPoint = QgsPoint( 83.1879, 54.7079 )
@@ -130,9 +135,9 @@ Now all in place so we can build graph and "tie" points to it::
 
   tiedPoints = director.makeGraph( builder, [ startPoint, endPoint ] )
 
-Building graph can take some time (depends on number of features in layer and
-layer size). tiedPoints is a list with coordinates of "tied" points. When
-build operation is finished we can get graph and use it in analysis::
+Building graph can take some time (depends on number of features in layer
+and layer size). ``tiedPoints`` is a list with coordinates of "tied" points.
+When build operation is finished we can get graph and use it in analysis::
 
   graph = builder.graph()
 
@@ -147,21 +152,22 @@ Graph analysis
 
 Networks analysis used to find answers on two questions: which vertices
 are connected and how to find shortest path. To solve this problems network
-analysis library provides Dijkstra's algorithm.
+analysis library provides `Dijkstra's algorithm <http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm>`_.
 
 Dijkstra's algorithm finds the best route from one of the vertices of the
 graph to all the others and the values of the optimization parameters.
-The results can be represented as shortest path tree.
+The results can be represented as `shortest path tree
+<http://en.wikipedia.org/wiki/Shortest_path_tree>`_.
 
 The shortest path tree is as oriented weighted graph (or more precise --- tree)
 with next properties:
 
-  * only one vertex have no incoming edges — the root of the tree
-  * all other vertices have only one incoming edge
-  * if vertex B is reachable from vertex A, then path from A to B is single
-    available path and it is optimal (shortes) on this graph
+* only one vertex have no incoming edges --- the root of the tree
+* all other vertices have only one incoming edge
+* if vertex B is reachable from vertex A, then path from A to B is single
+  available path and it is optimal (shortes) on this graph
 
-To get shortest path tree use methods Use methods :func:`shortestTree` and
+To get shortest path tree use methods :func:`shortestTree` and
 :func:`dijkstra` of `QgsGraphAnalyzer <http://doc.qgis.org/api/classQgsGraphAnalyzer.html>`_
 class. It is recommended to use method :func:`dijkstra` because it works
 faster and more efficiently uses memory.
@@ -170,19 +176,19 @@ The :func:`shortestTree` method is useful when you want to walk around
 shortest path tree. It always create new graph object (QgsGraph) and accepts
 three variables:
 
-  * source — input graph
-  * startVertexIdx — index of the point on tree (the root of the tree)
-  * criterionNum — number of edge property to use (started from 0).
+* ``source`` --- input graph
+* ``startVertexIdx`` --- index of the point on tree (the root of the tree)
+* ``criterionNum`` --- number of edge property to use (started from 0).
 
 ::
 
   tree = QgsGraphAnalyzer.shortestTree( graph, startId, 0 )
 
 The :func:`dijkstra` method has same arguments, but returns two arrays.
-In first array element i contains index of the incoming edge or -1 if there
-are no incoming edges. In seconf array element i contains distance from
-the root of the tree to vertex i or DOUBLE_MAX if vertex i is unreachable
-from the root.
+In first array element ``i`` contains index of the incoming edge or -1
+if there are no incoming edges. In seconf array element ``i`` contains
+distance from the root of the tree to vertex ``i`` or ``DOUBLE_MAX`` if
+vertex i is unreachable from the root.
 
 ::
 
@@ -396,8 +402,8 @@ Answers on this questions are fire station areas of availability.
 
 To find areas of availablity we can use method :func:`dijksta` of the
 :class:`QgsGraphAnalyzer` class. It is enough to compare elemems of cost
-array with predefined value. If cost[ i ] is less or equal with predefined
-value, than vertex i is inside area of availability, otherwise --- outside.
+array with predefined value. If ``cost[ i ]`` is less or equal with predefined
+value, than vertex ``i`` is inside area of availability, otherwise --- outside.
 
 More difficult get borders of area of availablity. Bottom border --- is
 a set of vertices that still accessible, and top border --- is a set of

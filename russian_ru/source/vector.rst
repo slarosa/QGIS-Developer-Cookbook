@@ -200,8 +200,7 @@ Memory провайдер
 Memory провайдер в основном предназначен для использования разработчиками
 расширений или сторонних приложений. Этот провайдер не хранит данные на
 диске, что позволят разработчикам использовать его в качестве быстрого
-хранилища для временных слоёв. (It does not store data on disk, allowing
-developers to use it as a fast backend for some temporary layers.)
+хранилища для временных слоёв.
 
 Провайдер поддерживает строковые и целочисленные поля, а также поля с
 плавающей запятой.
@@ -402,11 +401,9 @@ C++: рендер становится владельцем символа).
 следующим фрагментом кода в качестве отправной точки. Пример ниже создает
 простое разделение объектов на два класса::
 
-  from qgis.core import  (QgsVectorLayer,
-                    QgsMapLayerRegistry,
-        QgsGraduatedSymbolRendererV2,
-                    QgsSymbolV2,
-        QgsRendererRangeV2)
+  from qgis.core import (QgsVectorLayer, QgsMapLayerRegistry,
+                         QgsGraduatedSymbolRendererV2,
+                         QgsSymbolV2, QgsRendererRangeV2)
 
   myVectorLayer = QgsVectorLayer(myVectorPath, myName, 'ogr')
   myTargetField = myStyle['target_field']
@@ -427,7 +424,7 @@ C++: рендер становится владельцем символа).
             mySymbol1,
             myLabel)
   myRangeList.append(myRange1)
-  # теперь создаем другой символ и диапазое...
+  # теперь создаем другой символ и диапазоне...
   myMin = 50.1
   myMax = 100
   myLabel = 'Group 2'
