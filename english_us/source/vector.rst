@@ -87,6 +87,109 @@ To obtain field index from its name, use provider's :func:`fieldNameIndex` funct
   if fldDesc == -1:
     print "Field not found!"
 
+
+.. index:: vector layers; editing
+
+Modifying Vector Layers
+-----------------------
+
+Most vector data providers support editing of layer data. Sometimes they support
+just a subset of possible editing actions.
+Use the :func:`capabilities` function to find out what set of functionality is supported::
+
+  caps = layer.dataProvider().capabilities()
+
+By using any of following methods for vector layer editing, the changes are directly committed to the underlying
+data store (a file, database etc). In case you would like to do only temporary changes, skip to the next section
+that explains how to do :ref:`modifications with editing buffer <editing-buffer>`.
+
+Add Features
+............
+
+Create some :class:`QgsFeature` instances and pass a list of them to provider's :func:`addFeatures` method.
+It will return two values: result (true/false) and list of added features (their ID is set by the data store)::
+
+  if caps & QgsVectorDataProvider.AddFeatures:
+    feat = QgsFeature()
+    feat.addAttribute(0,"hello")
+    feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(123,456)))
+    (res, outFeats) = layer.dataProvider().addFeatures( [ feat ] )
+    
+
+Delete Features
+...............
+
+To delete some features, just provide a list of their feature IDs::
+
+  if caps & QgsVectorDataProvider.DeleteFeatures:
+    res = layer.dataProvider().deleteFeatures([ 5, 10 ])
+
+Modify Features
+...............
+
+It is possible to either change feature's geometry or to change some attributes. The following example first changes
+values of attributes with index 0 and 1, then it changes the feature's geometry::
+
+  fid = 100   # ID of the feature we will modify
+  
+  if caps & QgsVectorDataProvider.ChangeAttributeValues:
+    attrs = { 0 : QVariant("hello"), 1 : QVariant(123) }
+    layer.dataProvider().changeAttributeValues({ fid : attrs })
+  
+  if caps & QgsVectorDataProvider.ChangeGeometries:
+    geom = QgsGeometry.fromPoint(QgsPoint(111,222))
+    layer.dataProvider().changeGeometryValues({ fid : geom })
+
+Adding and Removing Fields
+..........................
+
+To add fields (attributes), you need to specify a list of field defnitions.
+For deletion of fields just provide a list of field indexes.
+::
+
+  if caps & QgsVectorDataProvider.AddAttributes:
+    res = layer.dataProvider().addAttributes( [ QgsField("mytext", QVariant.String), QgsField("myint", QVariant.Int) ] )
+
+  if caps & QgsVectorDataProvider.DeleteAttributes:
+    res = layer.dataProvider().deleteAttributes( [ 0 ] )
+
+
+.. _editing-buffer:
+
+Modifying Vector Layers with an Editing Buffer
+----------------------------------------------
+
+When editing vectors within QGIS application, you have to first start editing mode for a particular layer,
+then do some modifications and finally commit (or rollback) the changes. All the changes you do are
+not written until you commit them - they stay in layer's in-memory editing buffer. It is possible to
+use this functionality also programmatically - it is just another method for vector layer editing that
+complements the direct usage of data providers. Use this option when providing some GUI tools for vector layer
+editing, since this will allow user to decide whether to commit/rollback and allows the usage of undo/redo.
+When committing changes, all changes from the editing buffer are saved to data provider.
+
+To find out whether a layer is in editing mode, use :func:`isEditing` - the editing functions work only when
+the editing mode is turned on. Usage of editing functions::
+
+  # add two features (QgsFeature instances)
+  layer.addFeatures([feat1,feat2])
+  # delete a feature with specified ID
+  layer.deleteFeature(fid)
+
+  # set new geometry (QgsGeometry instance) for a feature
+  layer.changeGeometry(fid, geometry)
+  # update an attribute with given field index (int) to given value (QVariant)
+  layer.changeAttributeValue(fid, fieldIndex, value)
+
+  # add new field
+  layer.addAttribute(QgsField("mytext", QVariant.String))
+  # remove a field
+  layer.deleteAttribute(fieldIndex)
+
+To start editing mode, there is :func:`startEditing`
+method, to stop editing there are :func:`commitChanges` and :func:`rollback()` - however normally you should
+not need these methods and leave this functionality to be triggered by the user.
+
+
 .. index:: spatial index; using
 
 Using Spatial Index
