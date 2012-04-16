@@ -394,7 +394,7 @@ We are going to focus primarily on new symbology because it has better capabilit
 .. index:: symbology; new
 
 New Symbology
-^^^^^^^^^^^^^
+.............
 
 Now that we have a reference to a renderer from the previous section, let us explore it a bit::
 
@@ -812,7 +812,7 @@ Further Topics
 .. index:: symbology; old
 
 Old Symbology
-^^^^^^^^^^^^^
+.............
 
 A symbol determines color, size and other properties of the feature.
 Renderer associated with the layer decides what symbol will be used for particular feature. There are
