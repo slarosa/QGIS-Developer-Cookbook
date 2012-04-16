@@ -23,6 +23,7 @@
    measure
    settings
    pluginlayer
+   network-analysis
    plugins
 
 Индексы и таблицы
