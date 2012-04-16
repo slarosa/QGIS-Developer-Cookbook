@@ -102,7 +102,7 @@ data store (a file, database etc). In case you would like to do only temporary c
 that explains how to do :ref:`modifications with editing buffer <editing-buffer>`.
 
 Add Features
-............
+^^^^^^^^^^^^
 
 Create some :class:`QgsFeature` instances and pass a list of them to provider's :func:`addFeatures` method.
 It will return two values: result (true/false) and list of added features (their ID is set by the data store)::
@@ -115,7 +115,7 @@ It will return two values: result (true/false) and list of added features (their
     
 
 Delete Features
-...............
+^^^^^^^^^^^^^^^
 
 To delete some features, just provide a list of their feature IDs::
 
@@ -123,7 +123,7 @@ To delete some features, just provide a list of their feature IDs::
     res = layer.dataProvider().deleteFeatures([ 5, 10 ])
 
 Modify Features
-...............
+^^^^^^^^^^^^^^^
 
 It is possible to either change feature's geometry or to change some attributes. The following example first changes
 values of attributes with index 0 and 1, then it changes the feature's geometry::
@@ -139,7 +139,7 @@ values of attributes with index 0 and 1, then it changes the feature's geometry:
     layer.dataProvider().changeGeometryValues({ fid : geom })
 
 Adding and Removing Fields
-..........................
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To add fields (attributes), you need to specify a list of field defnitions.
 For deletion of fields just provide a list of field indexes.
@@ -392,7 +392,7 @@ We are going to focus primarily on new symbology because it has better capabilit
 .. index:: symbology; new
 
 New Symbology
-.............
+^^^^^^^^^^^^^
 
 Now that we have a reference to a renderer from the previous section, let us explore it a bit::
 
@@ -810,7 +810,7 @@ Further Topics
 .. index:: symbology; old
 
 Old Symbology
-.............
+^^^^^^^^^^^^^
 
 A symbol determines color, size and other properties of the feature.
 Renderer associated with the layer decides what symbol will be used for particular feature. There are
