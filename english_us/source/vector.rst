@@ -6,8 +6,6 @@ Using Vector Layers
 
 This section summarizes various actions that can be done with vector layers.
 
-**TODO:**
-   Editing, Layer vs. Data provider, ...
 
 .. index:: 
   triple: vector layers; iterating; features
