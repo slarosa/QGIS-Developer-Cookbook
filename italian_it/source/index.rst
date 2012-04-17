@@ -23,6 +23,7 @@ Contenuti:
    measure
    settings
    pluginlayer
+   network-analysis
    plugins
 
 Indice e ricerca
