@@ -6,8 +6,6 @@ Utilizzare layer Vettoriali
 
 Questa sezione riassume le varie operazioni possibili con i layer vettoriali.
 
-**TODO:**
-   Editing, Layer vs. Data provider, ...
 
 .. index:: 
   triple: layer vettoriali; iterare; elementi
@@ -85,7 +83,95 @@ Per ottenere l'indice del campo a partire dal suo nome, usare la funzione del fo
 
   fldDesc = provider.fieldNameIndex("DESCRIPTION")
   if fldDesc == -1:
-    print "Field not found!"
+    print "Campo non trovato!"
+
+
+.. index:: layer vettoriali; modifica
+
+Modifica di layer vettoriali
+----------------------------
+
+La maggior parte dei fornitori di dati vettoriali supportano la modifica dei dati; alcune volte supportano giusto un sottoinsieme delle possibili funzionalità di modifica.
+Per ottenere l'insieme di funzionalità supportate da uno specifico fornitore, usare la funzione :func:`capabilities`::
+
+    caps = layer.dataProvider().capabilities()
+
+Utilizzando i metodi successivi per la modifica dei layer vettoriali, i cambiamenti sono direttamente salvati (nei file o database corrispondenti). La sezione :ref:`Modificare layer vettoriali con buffer di modifica <editing-buffer>` spiega come effettuare dei cambiamenti temporanei.
+
+Aggiungere elementi
+^^^^^^^^^^^^^^^^^^^
+
+Per aggiungere degli elementi, creare delle istanze di :class:`QgsFeature` e passarle al metodo del fornitore :func:`addFeatures`. Verranno restituiti due valori: il risultato (true/false) ed una lista degli elementi aggiunti (il loro ID è impostato dal *data store*)::
+
+    if caps & QgsVectorDataProvider.AddFeatures:
+    feat = QgsFeature()
+    feat.addAttribute(0,"hello")
+    feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(123,456)))
+    (res, outFeats) = layer.dataProvider().addFeatures( [ feat ] )
+
+
+Eliminare elementi
+^^^^^^^^^^^^^^^^^^
+
+Per eliminare degli elementi basta fornire la lista dei loro ID::
+
+    if caps & QgsVectorDataProvider.DeleteFeatures:
+    res = layer.dataProvider().deleteFeatures([ 5, 10 ])
+
+Modificare elementi
+^^^^^^^^^^^^^^^^^^^
+
+E' possibile modificare la geometria o gli attributi di un elemento. Nell'esempio seguente vengono modificati i valori degli attributi con indice 0 e 1 e la geometria::
+   
+   fid = 100   # ID degli elementi da modificare
+      
+   if caps & QgsVectorDataProvider.ChangeAttributeValues:
+    attrs = { 0 : QVariant("hello"), 1 : QVariant(123) }
+    layer.dataProvider().changeAttributeValues({ fid : attrs })
+    
+   if caps & QgsVectorDataProvider.ChangeGeometries:
+    geom = QgsGeometry.fromPoint(QgsPoint(111,222))
+    layer.dataProvider().changeGeometryValues({ fid : geom })
+
+Aggiungere e rimuovere campi
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Per aggiungere dei campi (attributi), è necessario specificare una lista delle definizioni di campo. Per cancellare dei campi, basta fornire una lista degli ID di campo::
+
+    if caps & QgsVectorDataProvider.AddAttributes:
+      res = layer.dataProvider().addAttributes( [ QgsField("mytext", QVariant.String), QgsField("myint", QVariant.Int) ] )
+    
+    if caps & QgsVectorDataProvider.DeleteAttributes:
+      res = layer.dataProvider().deleteAttributes( [ 0 ] )
+
+
+.. _editing-buffer:
+
+Modificare layer vettoriali con buffer di modifica
+--------------------------------------------------
+
+Quando si modificano dei vettori in QGIS, come prima operazione bisogna attivare la sessione di modifica, quindi si apportano le modifiche ed infine si confermano le modifiche chiudendo la sessione di modifica. I cambiamenti non sono scritti finchè non si chiude la sessione di modifica - vengono memorizzati temporaneamente in un buffer di modifica. E' possibile utilizzare questa funzionalità anche per la programmazione - si tratta di usare un metodo per la modifica dei layer vettoriali a complemento dell'utilizzo diretto del fornitore. Utilizzare questa opzione per strumenti di modifica di layer vettoriali con GUI, in modo da permettere all'utente di scegliere se salvare o meno i cambiamenti e di usare gli strumenti Annulla/Ripristina.
+Quando si salvano i cambiamenti, le modifiche del buffer vengono salvate nel fornitore.
+
+Per capire se un layer è in modalità di modifica, usare :func:`isEditing` - la funzione di modifica funziona solo se la modalità di modifica è attiva. Esempi di utilizzo delle funzioni di modifica::
+
+  # aggiungere due elementi (istanze di QgsFeature)
+  layer.addFeatures([feat1,feat2])
+  # eliminare un elementi con specifico ID
+  layer.deleteFeature(fid)
+
+  # impostare una nuova geometria (istanza di QgsGeometry)
+  layer.changeGeometry(fid, geometry)
+  # aggiornare un attributo con specifico ID (QVariant)
+  layer.changeAttributeValue(fid, fieldIndex, value)
+
+  # aggiungere un nuovo campo
+  layer.addAttribute(QgsField("miotesto", QVariant.String))
+  # rimuovere un campo
+  layer.deleteAttribute(fieldIndex)
+
+Per attivare una sessione di modifica usare il metodo :func:`startEditing`; :func:`commitChanges` e :func:`rollBack()` permettono di chiudere la sessione di modifica; questi ultimi due metodi, comunque, non dovrebbero essere usati, lasciando all'utente la possibilità di utilizzare tale funzionalità.
+ 
 
 .. index:: indice spaziale; utilizzare
 
@@ -180,7 +266,9 @@ Il fornitore supporta campi string, int e double.
 
 Il fornitore di memoria, inoltre, supporta l'indicizzazione tramite la funzione :func:`createSpatialIndex`. Creato l'indice spaziale, è possibile iterare tra gli elementi in modo più veloce.
 
-Un fornitore di memoria si crea passando ``"memory"`` come stringa del fornitore al costruttore :class:`QgsVectorLayer`. Il costruttore, inoltre, prende in input un URI per definire il tipo di geometria del layer: ``"Point"``, ``"LineString"``, ``"Polygon"``, ``"MultiPoint"``, ``"MultiLineString"``, o ``"MultiPolygon"``.
+Un fornitore di memoria si crea passando ``"memory"`` come stringa del fornitore al costruttore :class:`QgsVectorLayer`.
+
+Il costruttore, inoltre, prende in input un URI per definire il tipo di geometria del layer: ``"Point"``, ``"LineString"``, ``"Polygon"``, ``"MultiPoint"``, ``"MultiLineString"``, o ``"MultiPolygon"``.
 
 A partire dalla versione 1.7 di QGIS l'URI può anche specificare il sistema di riferimento, i campi e l'indicizzazione del fornitore di memoria.
 La sintassi è la seguente:
