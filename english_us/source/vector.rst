@@ -88,6 +88,8 @@ To obtain field index from its name, use provider's :func:`fieldNameIndex` funct
 
 .. index:: vector layers; editing
 
+.. _editing:
+
 Modifying Vector Layers
 -----------------------
 
@@ -182,6 +184,29 @@ the editing mode is turned on. Usage of editing functions::
   layer.addAttribute(QgsField("mytext", QVariant.String))
   # remove a field
   layer.deleteAttribute(fieldIndex)
+
+In order to make undo/redo work properly, the above mentioned calls have to be wrapped into undo commands.
+(If you do not care about undo/redo and want to have the changes stored immediately, then you will
+have easier work by :ref:`editing with data provider <editing>`.) How to use the undo functionality::
+
+  layer.beginEditCommand("Feature triangulation")
+  
+  # ... call layer's editing methods ...
+  
+  if problem_occurred:
+    layer.destroyEditCommand()
+    return
+  
+  # ... more editing ...
+  
+  layer.endEditCommand()
+
+The :func:`beginEndCommand` will create an internal "active" command and will record subsequent changes
+in vector layer. With the call to :func:`endEditCommand` the command is pushed onto the undo stack
+and the user will be able to undo/redo it from GUI. In case something went wrong while doing the changes,
+the :func:`destroyEditCommand` method will remove the command and rollback all changes done while this
+command was active.
+
 
 To start editing mode, there is :func:`startEditing`
 method, to stop editing there are :func:`commitChanges` and :func:`rollback()` - however normally you should
