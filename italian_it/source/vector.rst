@@ -88,6 +88,8 @@ Per ottenere l'indice del campo a partire dal suo nome, usare la funzione del fo
 
 .. index:: layer vettoriali; modifica
 
+.. _modifica:
+
 Modifica di layer vettoriali
 ----------------------------
 
@@ -171,7 +173,28 @@ Per capire se un layer è in modalità di modifica, usare :func:`isEditing` - la
   layer.deleteAttribute(fieldIndex)
 
 Per attivare una sessione di modifica usare il metodo :func:`startEditing`; :func:`commitChanges` e :func:`rollBack()` permettono di chiudere la sessione di modifica; questi ultimi due metodi, comunque, non dovrebbero essere usati, lasciando all'utente la possibilità di utilizzare tale funzionalità.
- 
+
+Per il corretto funzionamento dei comando Annulla/Ripristina, le chiamate di cui sopra devono essere concatenate all'interno 
+di comandi di annullamento delle operazione di modifica.
+(Se non si vuole utilizzare il comando Annulla/Riprisitna e quindi si vogliono salvare immediatamente tutti le modifiche sul layer, 
+allora si avrà la possibilità di utilizzare più facilmente la :ref:`modifica con il fornitori di dati <modifica>`.) Come si utilizza la funzionalità di Annulla/Ripristina::
+
+  layer.beginEditCommand("Feature triangulation")
+  
+  # ... chiamata ai metodi di modifica di un layer vettoriale ...
+  
+  if problem_occurred:
+    layer.destroyEditCommand()
+    return
+  
+  # ... altre operazioni di modifica sul layer vettoriale ...
+  
+  layer.endEditCommand()
+
+La funzione :func:`beginEndCommand` crea un comando "attivo" e registra tutti i cambiamenti che avvengono nel layer vettoriale. 
+Mentre, con la chiamata alla funzione :func:`endEditCommand` il comando viene inserito nello stack di annullamento e l'utente sarà in grado di eseguire un Annulla/Ripristina dalla GUI (interfaccia grafica). Nel caso in cui qualcosa è andato storto mentre si fanno le modifiche, il metodo :func:`destroyEditCommand` rimuoverà il comando ed annullerà tutte le modifiche fatte, mentre il comando è attivo.
+
+Per attivare una sessione di modifica usare il metodo :func:`startEditing`; :func:`commitChanges` e :func:`rollBack()` permettono di chiudere la sessione di modifica; questi ultimi due metodi, comunque, non dovrebbero essere usati, lasciando all'utente la possibilità di utilizzare tale funzionalità.
 
 .. index:: indice spaziale; utilizzare
 
